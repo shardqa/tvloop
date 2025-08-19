@@ -1,0 +1,70 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Python virtual environment
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+logs/*.log
+*.log
+*.tmp
+*.temp
+
+# Channel state and runtime files
+channels/*/state.json
+channels/*/*.pid
+channels/*/mpv.pid
+channels/*/vlc.pid
+
+# Test artifacts
+/tmp/tvloop_test_*
+/tmp/test_video*.mp4
+coverage/
+.coverage
+htmlcov/
+
+# Configuration files with sensitive data
+config/*.key
+config/*.secret
+*.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# YouTube API credentials
+youtube_credentials.json
+client_secret*.json
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
