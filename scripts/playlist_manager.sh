@@ -3,8 +3,11 @@
 PLAYLIST_FILE="${1:-channels/channel_1/playlist.txt}"
 VIDEOS_DIR="${2:-/home/richard/Videos}"
 
-source "$(dirname "$0")/../core/playlist_utils.sh"
-source "$(dirname "$0")/../core/playlist_creator.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
+source "$PROJECT_ROOT/core/playlist_utils.sh"
+source "$PROJECT_ROOT/core/playlist_creator.sh"
 
 case "${3:-info}" in
     "validate")

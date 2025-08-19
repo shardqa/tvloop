@@ -1,6 +1,9 @@
 #!/bin/bash
 
-source "$(dirname "$0")/../core/logging.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
+source "$PROJECT_ROOT/core/logging.sh"
 
 launch_mpv() {
     local video_path="$1"

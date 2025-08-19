@@ -2,8 +2,11 @@
 
 CHANNEL_DIR="${1:-channels/channel_1}"
 
-source "$(dirname "$0")/../core/logging.sh"
-source "$(dirname "$0")/../core/channel_state.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
+source "$PROJECT_ROOT/core/logging.sh"
+source "$PROJECT_ROOT/core/channel_state.sh"
 
 case "${2:-status}" in
     "init")

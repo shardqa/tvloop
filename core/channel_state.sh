@@ -1,7 +1,11 @@
 #!/bin/bash
 
-source "$(dirname "$0")/time_utils.sh"
-source "$(dirname "$0")/playlist_parser.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
+source "$SCRIPT_DIR/logging.sh"
+source "$SCRIPT_DIR/time_utils.sh"
+source "$SCRIPT_DIR/playlist_parser.sh"
 
 initialize_channel() {
     local channel_dir="$1"

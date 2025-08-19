@@ -24,6 +24,7 @@ help:
 	@echo "  make test-unit     - Run unit tests only"
 	@echo "  make test-integration - Run integration tests only"
 	@echo "  make test-coverage - Run tests with coverage report"
+	@echo "  make coverage-analysis - Show coverage analysis"
 	@echo ""
 	@echo "Utilities:"
 	@echo "  make clean         - Clean up temporary files"

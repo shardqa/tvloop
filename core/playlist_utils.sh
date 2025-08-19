@@ -1,7 +1,9 @@
 #!/bin/bash
 
-source "$(dirname "$0")/time_utils.sh"
-source "$(dirname "$0")/logging.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+source "$SCRIPT_DIR/time_utils.sh"
+source "$SCRIPT_DIR/logging.sh"
 
 get_video_title() {
     local video_path="$1"

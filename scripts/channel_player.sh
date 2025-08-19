@@ -2,10 +2,13 @@
 
 CHANNEL_DIR="${1:-channels/channel_1}"
 
-source "$(dirname "$0")/../core/logging.sh"
-source "$(dirname "$0")/../players/player_utils.sh"
-source "$(dirname "$0")/../players/mpv_player.sh"
-source "$(dirname "$0")/../players/vlc_player.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
+source "$PROJECT_ROOT/core/logging.sh"
+source "$PROJECT_ROOT/players/player_utils.sh"
+source "$PROJECT_ROOT/players/mpv_player.sh"
+source "$PROJECT_ROOT/players/vlc_player.sh"
 
 tune_in() {
     local player_type="${1:-mpv}"
@@ -27,8 +30,7 @@ tune_in() {
         return 1
     fi
     
-    stop_player "$CHANNEL_DIR" "mpv"
-    stop_player "$CHANNEL_DIR" "vlc"
+    stop_all_players "$(dirname "$CHANNEL_DIR")"
     
     case "$player_type" in
         "mpv")

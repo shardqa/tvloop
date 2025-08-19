@@ -1,6 +1,9 @@
 #!/bin/bash
 
-source "$(dirname "$0")/time_utils.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+source "$SCRIPT_DIR/logging.sh"
+source "$SCRIPT_DIR/time_utils.sh"
 
 parse_playlist() {
     local playlist_file="$1"

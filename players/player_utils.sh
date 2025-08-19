@@ -1,8 +1,11 @@
 #!/bin/bash
 
-source "$(dirname "$0")/../core/logging.sh"
-source "$(dirname "$0")/../core/time_utils.sh"
-source "$(dirname "$0")/../core/playlist_parser.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
+source "$PROJECT_ROOT/core/logging.sh"
+source "$PROJECT_ROOT/core/time_utils.sh"
+source "$PROJECT_ROOT/core/playlist_parser.sh"
 
 get_current_video_position() {
     local channel_dir="$1"
@@ -62,6 +65,16 @@ stop_player() {
     else
         log "No $player_type PID file found"
     fi
+}
+
+stop_all_players() {
+    local base_dir="${1:-channels}"
+    
+    find "$base_dir" -name "*.pid" -type f 2>/dev/null | while read -r pid_file; do
+        local channel_dir=$(dirname "$pid_file")
+        local player_type=$(basename "$pid_file" .pid)
+        stop_player "$channel_dir" "$player_type"
+    done
 }
 
 show_player_status() {
