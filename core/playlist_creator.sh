@@ -10,6 +10,7 @@ create_playlist_from_directory() {
     local videos_dir="$1"
     local playlist_file="$2"
     local extensions="${3:-mp4,mkv,avi,mov,wmv,flv,webm}"
+    local max_size_mb="${4:-0}"  # 0 means no size limit
     
     if [[ ! -d "$videos_dir" ]]; then
         log "ERROR: Videos directory not found: $videos_dir"
@@ -18,11 +19,25 @@ create_playlist_from_directory() {
     
     echo "Creating playlist from directory: $videos_dir"
     echo "Extensions: $extensions"
+    if [[ $max_size_mb -gt 0 ]]; then
+        echo "Max file size: ${max_size_mb}MB"
+    fi
     
     > "$playlist_file"
     local count=0
+    local skipped_large=0
     
     while IFS= read -r -d '' video_file; do
+        # Check file size if limit is set
+        if [[ $max_size_mb -gt 0 ]]; then
+            local file_size_mb=$(($(stat -c%s "$video_file") / 1024 / 1024))
+            if [[ $file_size_mb -gt $max_size_mb ]]; then
+                echo "Skipped (too large): $(basename "$video_file") - ${file_size_mb}MB"
+                skipped_large=$((skipped_large + 1))
+                continue
+            fi
+        fi
+        
         local duration=$(get_video_duration "$video_file")
         local title=$(get_video_title "$video_file")
         
@@ -36,6 +51,9 @@ create_playlist_from_directory() {
     done < <(find "$videos_dir" -type f \( $(echo "$extensions" | sed 's/,/ -o -name "*.&/g' | sed 's/^/-name "*.&/') \) -print0 | sort -z)
     
     echo "Playlist created with $count videos: $playlist_file"
+    if [[ $skipped_large -gt 0 ]]; then
+        echo "Skipped $skipped_large files that were too large (>${max_size_mb}MB)"
+    fi
 }
 
 show_playlist_info() {

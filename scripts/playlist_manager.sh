@@ -14,21 +14,25 @@ case "${3:-info}" in
         validate_playlist "$PLAYLIST_FILE"
         ;;
     "create")
-        create_playlist_from_directory "$VIDEOS_DIR" "$PLAYLIST_FILE" "${4:-mp4,mkv,avi}"
+        create_playlist_from_directory "$VIDEOS_DIR" "$PLAYLIST_FILE" "${4:-mp4,mkv,avi}" "${5:-0}"
         ;;
     "info")
         show_playlist_info "$PLAYLIST_FILE"
         ;;
     *)
-        echo "Usage: $0 [playlist_file] [videos_dir] [command] [extensions]"
+        echo "Usage: $0 [playlist_file] [videos_dir] [command] [extensions] [max_size_mb]"
         echo "Commands:"
         echo "  validate  - Validate playlist and check video files"
         echo "  create    - Create playlist from directory"
         echo "  info      - Show playlist information (default)"
         echo ""
+        echo "Parameters:"
+        echo "  max_size_mb - Maximum file size in MB (0 = no limit)"
+        echo ""
         echo "Examples:"
         echo "  $0 channels/channel_1/playlist.txt validate"
         echo "  $0 channels/channel_1/playlist.txt /home/richard/Videos create"
         echo "  $0 channels/channel_1/playlist.txt /home/richard/Videos create mp4,mkv"
+        echo "  $0 channels/channel_1/playlist.txt /home/richard/Videos create mp4,mkv 500"
         ;;
 esac
