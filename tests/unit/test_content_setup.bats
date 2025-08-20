@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
 setup() {
-    load 'test_helper/content_helpers'
+    load '../test_helper/content_helpers'
     setup_content_test_env
 }
 

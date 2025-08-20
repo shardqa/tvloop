@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
 setup() {
-    load 'test_helper/channel_helpers'
+    load '../test_helper/channel_helpers'
     setup_channel_test_env
 }
 
@@ -22,6 +22,7 @@ teardown() {
 
 @test "channel state files are independent" {
     ./scripts/channel_tracker.sh "$CHANNEL_1_DIR" init
+    sleep 1
     ./scripts/channel_tracker.sh "$CHANNEL_2_DIR" init
     
     [ -f "$CHANNEL_1_DIR/state.json" ]

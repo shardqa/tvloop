@@ -10,9 +10,20 @@ setup_content_test_env() {
     mkdir -p "$TEST_VIDEOS_DIR"
     
     # Create test video files with different extensions
-    echo "test content" > "$TEST_VIDEOS_DIR/test_video1.mp4"
-    echo "test content" > "$TEST_VIDEOS_DIR/test_video2.mkv"
-    echo "test content" > "$TEST_VIDEOS_DIR/test_video3.avi"
+    # For testing, we'll create files that ffprobe can read
+    # Create a simple video file using ffmpeg if available
+    if command -v ffmpeg >/dev/null 2>&1; then
+        # Create a 1-second test video
+        ffmpeg -f lavfi -i testsrc=duration=1:size=320x240:rate=1 -c:v mpeg4 -t 1 "$TEST_VIDEOS_DIR/test_video1.mp4" -y >/dev/null 2>&1 || true
+        ffmpeg -f lavfi -i testsrc=duration=1:size=320x240:rate=1 -c:v mpeg4 -t 1 "$TEST_VIDEOS_DIR/test_video2.mkv" -y >/dev/null 2>&1 || true
+        ffmpeg -f lavfi -i testsrc=duration=1:size=320x240:rate=1 -c:v mpeg4 -t 1 "$TEST_VIDEOS_DIR/test_video3.avi" -y >/dev/null 2>&1 || true
+    else
+        # Fallback: create dummy files
+        echo "test content" > "$TEST_VIDEOS_DIR/test_video1.mp4"
+        echo "test content" > "$TEST_VIDEOS_DIR/test_video2.mkv"
+        echo "test content" > "$TEST_VIDEOS_DIR/test_video3.avi"
+    fi
+    
     echo "test content" > "$TEST_VIDEOS_DIR/ignored_file.txt"
 }
 

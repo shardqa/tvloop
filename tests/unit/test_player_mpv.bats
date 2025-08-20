@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
 setup() {
-    load 'test_helper/player_helpers'
+    load '../test_helper/player_helpers'
     setup_player_test_env
     ./scripts/channel_tracker.sh "$TEST_CHANNEL_DIR" init
 }

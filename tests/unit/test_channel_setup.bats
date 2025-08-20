@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
 setup() {
-    load 'test_helper/channel_helpers'
+    load '../test_helper/channel_helpers'
     setup_channel_test_env
 }
 
