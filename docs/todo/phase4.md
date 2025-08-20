@@ -21,6 +21,19 @@
 - [ ] Subscription update monitoring
 - [ ] Online playback integration
 
+## YouTube Channel Integration (NEW IDEA)
+- [ ] YouTube Data API integration for specific channels
+- [ ] Fetch most recent videos from a specific YouTube channel
+- [ ] Calculate total duration and build 24-hour programming block
+- [ ] Dynamic playlist generation based on video lengths:
+  - [ ] Long videos: fewer videos in 24-hour block
+  - [ ] Short videos: many videos in 24-hour block
+- [ ] 24-hour cycle management with video randomization
+- [ ] Automatic playlist refresh after 24-hour cycle completes
+- [ ] Online playback integration for streaming
+- [ ] Channel metadata caching and update monitoring
+- [ ] Fallback handling for unavailable videos
+
 ## YouTube Integration Core
 - [ ] YouTube Data API client
 - [ ] Video streaming without downloads
