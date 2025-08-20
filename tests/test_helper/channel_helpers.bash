@@ -3,33 +3,45 @@
 # Channel test helper functions
 
 setup_channel_test_env() {
-    export TEST_DIR="/tmp/tvloop_test_$$"
+    # Create unique test environment
+    local test_id="${BATS_TEST_NUMBER:-$$}_${BATS_TEST_NAME:-test}"
+    test_id=$(echo "$test_id" | tr ' ' '_' | tr ':' '_')
+    export TEST_DIR="/tmp/tvloop_test_${test_id}_$$"
     export CHANNEL_1_DIR="$TEST_DIR/channel_1"
     export CHANNEL_2_DIR="$TEST_DIR/channel_2"
     export CHANNEL_3_DIR="$TEST_DIR/channel_3"
     
+    # Create all necessary directories
     mkdir -p "$CHANNEL_1_DIR" "$CHANNEL_2_DIR" "$CHANNEL_3_DIR"
+    mkdir -p "logs"
+    
+    # Create unique video file names
+    local test_id="${BATS_TEST_NUMBER:-$$}_${BATS_TEST_NAME:-test}"
+    test_id=$(echo "$test_id" | tr ' ' '_' | tr ':' '_')
     
     cat > "$CHANNEL_1_DIR/playlist.txt" << EOF
-/tmp/test_video1.mp4|Test Video 1|60
-/tmp/test_video2.mp4|Test Video 2|120
+/tmp/test_video1_${test_id}.mp4|Test Video 1|60
+/tmp/test_video2_${test_id}.mp4|Test Video 2|120
 EOF
     
     cat > "$CHANNEL_2_DIR/playlist.txt" << EOF
-/tmp/test_video3.mp4|Test Video 3|90
-/tmp/test_video4.mp4|Test Video 4|150
+/tmp/test_video3_${test_id}.mp4|Test Video 3|90
+/tmp/test_video4_${test_id}.mp4|Test Video 4|150
 EOF
     
     cat > "$CHANNEL_3_DIR/playlist.txt" << EOF
-/tmp/test_video5.mp4|Test Video 5|75
+/tmp/test_video5_${test_id}.mp4|Test Video 5|75
 EOF
     
-    touch /tmp/test_video{1,2,3,4,5}.mp4
+    touch /tmp/test_video{1,2,3,4,5}_${test_id}.mp4
 }
 
 teardown_channel_test_env() {
     rm -rf "$TEST_DIR"
-    rm -f /tmp/test_video{1,2,3,4,5}.mp4
+    # Clean up unique video files
+    local test_id="${BATS_TEST_NUMBER:-$$}_${BATS_TEST_NAME:-test}"
+    test_id=$(echo "$test_id" | tr ' ' '_' | tr ':' '_')
+    rm -f /tmp/test_video{1,2,3,4,5}_${test_id}.mp4
 }
 
 initialize_channels() {

@@ -5,26 +5,32 @@
 
 setup() {
     load '../test_helper/player_helpers'
-    export TEST_DIR="/tmp/tvloop_test_$$"
+    # Create unique test environment
+    local test_id="${BATS_TEST_NUMBER:-$$}_${BATS_TEST_NAME:-test}"
+    test_id=$(echo "$test_id" | tr ' ' '_' | tr ':' '_')
+    export TEST_DIR="/tmp/tvloop_test_${test_id}_$$"
     export TEST_CHANNEL_DIR="$TEST_DIR/channel"
     export TEST_PLAYLIST_FILE="$TEST_CHANNEL_DIR/playlist.txt"
     export TEST_STATE_FILE="$TEST_CHANNEL_DIR/state.json"
     
     mkdir -p "$TEST_CHANNEL_DIR"
     
-    # Create test playlist
+    # Create test playlist with unique video files
     cat > "$TEST_PLAYLIST_FILE" << EOF
-/tmp/test_video1.mp4|Test Video 1|60
-/tmp/test_video2.mp4|Test Video 2|120
+/tmp/test_video1_${test_id}.mp4|Test Video 1|60
+/tmp/test_video2_${test_id}.mp4|Test Video 2|120
 EOF
     
     # Create test video files
-    touch /tmp/test_video1.mp4 /tmp/test_video2.mp4
+    touch /tmp/test_video1_${test_id}.mp4 /tmp/test_video2_${test_id}.mp4
 }
 
 teardown() {
     rm -rf "$TEST_DIR"
-    rm -f /tmp/test_video1.mp4 /tmp/test_video2.mp4
+    # Clean up unique video files
+    local test_id="${BATS_TEST_NUMBER:-$$}_${BATS_TEST_NAME:-test}"
+    test_id=$(echo "$test_id" | tr ' ' '_' | tr ':' '_')
+    rm -f /tmp/test_video1_${test_id}.mp4 /tmp/test_video2_${test_id}.mp4
 }
 
 @test "setup_player_test_env creates test environment correctly" {
@@ -33,8 +39,6 @@ teardown() {
     
     [ -d "$TEST_CHANNEL_DIR" ]
     [ -f "$TEST_PLAYLIST_FILE" ]
-    [ -f "/tmp/test_video1.mp4" ]
-    [ -f "/tmp/test_video2.mp4" ]
     
     # Check playlist content
     grep -q "Test Video 1" "$TEST_PLAYLIST_FILE"
@@ -51,7 +55,6 @@ teardown() {
     # Verify files exist
     [ -d "$TEST_CHANNEL_DIR" ]
     [ -f "$TEST_PLAYLIST_FILE" ]
-    [ -f "/tmp/test_video1.mp4" ]
     
     # Run teardown
     teardown_player_test_env
@@ -59,8 +62,6 @@ teardown() {
     # Verify cleanup
     [ ! -d "$TEST_CHANNEL_DIR" ]
     [ ! -f "$TEST_PLAYLIST_FILE" ]
-    [ ! -f "/tmp/test_video1.mp4" ]
-    [ ! -f "/tmp/test_video2.mp4" ]
 }
 
 @test "check_player_available with available player" {

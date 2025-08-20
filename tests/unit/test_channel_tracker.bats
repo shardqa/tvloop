@@ -4,30 +4,35 @@
 # Uses Bats (Bash Automated Testing System)
 
 setup() {
-    # Setup test environment
-    export TEST_DIR="/tmp/tvloop_test_$$"
+    # Setup test environment with unique identifiers
+    local test_id="${BATS_TEST_NUMBER:-$$}_${BATS_TEST_NAME:-test}"
+    test_id=$(echo "$test_id" | tr ' ' '_' | tr ':' '_')
+    export TEST_DIR="/tmp/tvloop_test_${test_id}_$$"
     export CHANNEL_DIR="$TEST_DIR/channel_1"
     export SCRIPT_DIR="scripts"
     
     mkdir -p "$CHANNEL_DIR"
     
-    # Create test playlist
+    # Create test playlist with unique video files
     cat > "$CHANNEL_DIR/playlist.txt" << EOF
-/tmp/test_video1.mp4|Test Video 1|120
-/tmp/test_video2.mp4|Test Video 2|180
-/tmp/test_video3.mp4|Test Video 3|90
+/tmp/test_video1_${test_id}.mp4|Test Video 1|120
+/tmp/test_video2_${test_id}.mp4|Test Video 2|180
+/tmp/test_video3_${test_id}.mp4|Test Video 3|90
 EOF
     
     # Create test video files
-    echo "test content" > /tmp/test_video1.mp4
-    echo "test content" > /tmp/test_video2.mp4
-    echo "test content" > /tmp/test_video3.mp4
+    echo "test content" > /tmp/test_video1_${test_id}.mp4
+    echo "test content" > /tmp/test_video2_${test_id}.mp4
+    echo "test content" > /tmp/test_video3_${test_id}.mp4
 }
 
 teardown() {
     # Cleanup test environment
     rm -rf "$TEST_DIR"
-    rm -f /tmp/test_video*.mp4
+    # Clean up unique video files
+    local test_id="${BATS_TEST_NUMBER:-$$}_${BATS_TEST_NAME:-test}"
+    test_id=$(echo "$test_id" | tr ' ' '_' | tr ':' '_')
+    rm -f /tmp/test_video{1,2,3}_${test_id}.mp4
 }
 
 @test "channel_tracker init creates state file" {
@@ -55,7 +60,7 @@ teardown() {
     [ "$status" -eq 0 ]
     [[ "$output" == *"Channel Status:"* ]]
     [[ "$output" == *"Total Playlist Duration: 390s"* ]]
-    [[ "$output" == *"Current Video: test_video1.mp4"* ]]
+    [[ "$output" == *"Current Video: test_video1_"* ]]
 }
 
 @test "channel_tracker handles missing playlist file" {

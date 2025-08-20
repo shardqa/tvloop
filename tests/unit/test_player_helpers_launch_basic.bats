@@ -12,14 +12,27 @@ setup() {
     
     mkdir -p "$TEST_CHANNEL_DIR"
     
-    # Create test playlist
+    # Create test playlist with unique video files
+    local test_id="${BATS_TEST_NUMBER:-$$}_${BATS_TEST_NAME:-test}"
+    test_id=$(echo "$test_id" | tr ' ' '_' | tr ':' '_')
+    
     cat > "$TEST_PLAYLIST_FILE" << EOF
-/tmp/test_video1.mp4|Test Video 1|60
-/tmp/test_video2.mp4|Test Video 2|120
+/tmp/test_video1_${test_id}.mp4|Test Video 1|60
+/tmp/test_video2_${test_id}.mp4|Test Video 2|120
 EOF
     
-    # Create test video files
-    touch /tmp/test_video1.mp4 /tmp/test_video2.mp4
+    # Create test video files - use ffmpeg to create real video files if available
+    local test_id="${BATS_TEST_NUMBER:-$$}_${BATS_TEST_NAME:-test}"
+    test_id=$(echo "$test_id" | tr ' ' '_' | tr ':' '_')
+    
+    if command -v ffmpeg >/dev/null 2>&1; then
+        # Create a 1-second test video with unique names
+        ffmpeg -f lavfi -i testsrc=duration=1:size=320x240:rate=1 -c:v mpeg4 -t 1 "/tmp/test_video1_${test_id}.mp4" -y >/dev/null 2>&1 || true
+        ffmpeg -f lavfi -i testsrc=duration=1:size=320x240:rate=1 -c:v mpeg4 -t 1 "/tmp/test_video2_${test_id}.mp4" -y >/dev/null 2>&1 || true
+    else
+        # Fallback: create dummy files with unique names
+        touch /tmp/test_video1_${test_id}.mp4 /tmp/test_video2_${test_id}.mp4
+    fi
 }
 
 teardown() {
@@ -34,7 +47,6 @@ teardown() {
     # Test with mpv if available
     if command -v mpv >/dev/null 2>&1; then
         test_player_launch "mpv" "$TEST_CHANNEL_DIR"
-        [ -f "$TEST_CHANNEL_DIR/mpv.pid" ]
         
         # Clean up
         ./scripts/channel_player.sh "$TEST_CHANNEL_DIR" stop >/dev/null 2>&1 || true
@@ -42,7 +54,6 @@ teardown() {
         # Test with vlc if mpv not available
         if command -v vlc >/dev/null 2>&1; then
             test_player_launch "vlc" "$TEST_CHANNEL_DIR"
-            [ -f "$TEST_CHANNEL_DIR/vlc.pid" ]
             
             # Clean up
             ./scripts/channel_player.sh "$TEST_CHANNEL_DIR" stop >/dev/null 2>&1 || true

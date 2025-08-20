@@ -1,0 +1,177 @@
+1..156
+ok 1 channel states are isolated
+ok 2 channel state files are independent
+ok 3 channel playlist files are independent
+ok 4 multiple channels can be initialized independently
+ok 5 channel configuration can be managed
+ok 6 channel status dashboard shows all channels
+ok 7 get_channel_status with multiple cycles completed
+ok 8 get_channel_status with zero duration
+ok 9 get_channel_status with very large duration
+ok 10 get_channel_status with elapsed time in second video
+ok 11 initialize_channel with missing video files
+ok 12 get_channel_status with malformed playlist entries
+ok 13 initialize_channel with missing playlist file
+ok 14 initialize_channel with empty playlist file
+ok 15 initialize_channel with invalid playlist format
+ok 16 initialize_channel with valid playlist
+ok 17 get_channel_status with missing state file
+ok 18 get_channel_status with invalid state file
+ok 19 get_channel_status with missing playlist file
+ok 20 get_channel_status with valid setup
+ok 21 channel switching works correctly
+ok 22 channel configuration supports multiple types
+ok 23 channel switching preserves state
+ok 24 channel_tracker init creates state file
+not ok 25 channel_tracker status shows correct information
+# (in test file tests/unit/test_channel_tracker.bats, line 57)
+#   `[[ "$output" == *"Total Playlist Duration: 390s"* ]]' failed
+# [2025-08-20 16:24:13] WARNING: Video file not found: /tmp/test_video1.mp4
+# [2025-08-20 16:24:13] WARNING: Video file not found: /tmp/test_video2.mp4
+# [2025-08-20 16:24:13] WARNING: Video file not found: /tmp/test_video3.mp4
+# [2025-08-20 16:24:13] Channel initialized: start_time=1755717853, total_duration=0
+ok 26 channel_tracker handles missing playlist file
+ok 27 channel_tracker handles missing state file
+ok 28 channel_tracker calculates elapsed time correctly
+ok 29 channel_tracker handles empty playlist
+ok 30 metadata extraction works
+ok 31 video file extensions are properly detected # skip No test videos were created, skipping detailed checks
+ok 32 playlist metadata includes duration information
+ok 33 playlist metadata includes proper titles
+ok 34 playlist validation works
+ok 35 playlist info shows correct information
+ok 36 playlist file format is correct
+ok 37 playlist handles empty directory gracefully
+ok 38 local folder scanning works
+ok 39 automatic playlist generation from directory
+ok 40 file format detection and filtering
+ok 41 playlist can be used with channel system
+ok 42 setup_player_test_env creates test environment correctly
+ok 43 teardown_player_test_env cleans up correctly
+ok 44 check_player_available with available player
+ok 45 check_player_available with unavailable player # skip nonexistent_player_xyz123 not available
+not ok 46 test_player_launch with available player
+# (from function `test_player_launch' in file tests/unit/../test_helper/player_helpers.bash, line 41,
+#  in test file tests/unit/test_player_helpers_launch_basic.bats, line 36)
+#   `test_player_launch "mpv" "$TEST_CHANNEL_DIR"' failed
+# [2025-08-20 16:24:16] Channel initialized: start_time=1755717856, total_duration=180
+ok 47 test_player_launch with unavailable player # skip nonexistent_player_xyz123 not available
+not ok 48 test_player_launch timeout handling
+# (from function `test_player_launch' in file tests/unit/../test_helper/player_helpers.bash, line 41,
+#  in test file tests/unit/test_player_helpers_launch_basic.bats, line 75)
+#   `test_player_launch "mpv" "$TEST_CHANNEL_DIR"' failed
+# [2025-08-20 16:24:16] WARNING: Video file not found: /tmp/test_video1.mp4
+# [2025-08-20 16:24:16] WARNING: Video file not found: /tmp/test_video2.mp4
+# [2025-08-20 16:24:16] Channel initialized: start_time=1755717856, total_duration=0
+ok 49 test_player_launch with missing channel directory
+ok 50 test_player_launch with missing playlist file
+ok 51 test_player_launch with empty playlist
+ok 52 test_player_launch with invalid playlist format
+ok 53 test_player_launch with missing video files
+ok 54 test_player_stop with available player
+ok 55 test_player_stop with unavailable player # skip nonexistent_player_xyz123 not available
+ok 56 test_player_stop error handling
+ok 57 test_player_stop with missing channel directory
+not ok 58 player launch with mpv
+# (from function `test_player_launch' in file tests/unit/../test_helper/player_helpers.bash, line 41,
+#  in test file tests/unit/test_player_mpv.bats, line 14)
+#   `test_player_launch "mpv" "$TEST_CHANNEL_DIR"' failed
+# [2025-08-20 16:24:18] Channel initialized: start_time=1755717858, total_duration=180
+ok 59 player stop command works with mpv
+ok 60 mpv player creates pid file
+ok 61 channel initialization creates state file
+ok 62 channel status shows current video position
+ok 63 timestamp calculation is accurate
+ok 64 playlist looping works correctly
+ok 65 get_current_video_position with invalid playlist format
+ok 66 get_current_video_position with missing video files
+ok 67 get_current_video_position with position in second video
+ok 68 get_current_video_position with missing state file
+ok 69 get_current_video_position with invalid state file
+ok 70 get_current_video_position with zero total duration
+ok 71 get_current_video_position with missing playlist file
+ok 72 get_current_video_position with empty playlist file
+ok 73 show_player_status with no pid files
+ok 74 show_player_status with stale pid files
+ok 75 show_player_status with valid pid files
+ok 76 stop_player with non-existent pid file
+ok 77 stop_player with stale pid file
+ok 78 stop_player with valid pid file
+ok 79 stop_all_players with no pid files
+ok 80 stop_all_players with multiple pid files
+ok 81 get_current_video_position with valid setup
+ok 82 player launch with vlc
+ok 83 player stop command works with vlc
+ok 84 vlc player creates pid file
+ok 85 playlist creation with invalid directory
+ok 86 playlist creation with empty directory
+ok 87 video title extraction
+ok 88 playlist creation with custom extensions
+ok 89 playlist creation with multiple extensions
+ok 90 playlist validation with valid files
+ok 91 playlist validation with missing files
+ok 92 playlist validation with missing playlist file
+ok 93 playlist info display with valid playlist
+ok 94 playlist info display with missing playlist file
+ok 95 get_video_duration with non-existent file
+ok 96 calculate_current_position with zero duration
+ok 97 calculate_current_position with valid duration
+ok 98 calculate_current_position after multiple cycles
+ok 99 get_current_timestamp returns valid timestamp
+ok 100 calculate_elapsed_time calculates correct elapsed time
+ok 101 calculate_elapsed_time with future start time returns negative
+ok 102 get_video_duration with ffprobe available
+ok 103 get_video_duration without ffprobe returns 0
+ok 104 calculate_current_position with very large duration
+ok 105 calculate_current_position edge case - exactly one cycle
+ok 106 check_youtube_api_key returns success when API key is set
+ok 107 check_youtube_api_key returns error when API key is not set
+ok 108 youtube_api_request fails when API key is not set
+ok 109 youtube_api_request constructs correct URL
+ok 110 youtube_api_request handles API errors
+ok 111 youtube_api_request uses wget when curl not available
+ok 112 youtube_api_request fails when neither curl nor wget available
+ok 113 convert_iso_duration_to_seconds for seconds only
+ok 114 convert_iso_duration_to_seconds for minutes and seconds
+ok 115 convert_iso_duration_to_seconds for hours, minutes and seconds
+ok 116 convert_iso_duration_to_seconds for hours only
+ok 117 convert_iso_duration_to_seconds for minutes only
+ok 118 convert_iso_duration_to_seconds returns 0 for invalid format
+ok 119 convert_iso_duration_to_seconds handles empty input
+ok 120 extract_playlist_id from playlist URL
+ok 121 extract_playlist_id from watch URL with list parameter
+ok 122 extract_playlist_id returns empty for invalid URL
+ok 123 extract_playlist_id handles empty input
+ok 124 extract_video_id from standard YouTube URL
+ok 125 extract_video_id from youtu.be URL
+ok 126 extract_video_id from embed URL
+ok 127 extract_video_id returns empty for invalid URL
+ok 128 extract_video_id handles empty input
+ok 129 create_youtube_playlist fails when playlist URL is empty
+ok 130 create_youtube_playlist fails when output file is empty
+ok 131 create_youtube_playlist fails when playlist ID cannot be extracted
+ok 132 create_youtube_playlist creates playlist file successfully
+ok 133 create_youtube_playlist handles empty playlist gracefully
+ok 134 create_youtube_playlist handles video detail retrieval failures gracefully
+ok 135 get_playlist_items fails when playlist ID is empty
+ok 136 get_playlist_items fails when playlist ID is not provided
+ok 137 get_playlist_items returns video IDs for valid playlist
+ok 138 get_playlist_items handles API errors
+ok 139 get_playlist_items handles empty playlist
+ok 140 get_playlist_items respects max_results parameter
+ok 141 get_video_details fails when video ID is empty
+ok 142 get_video_details fails when video ID is not provided
+ok 143 get_video_details returns video information for valid video
+ok 144 get_video_details handles API errors
+ok 145 get_video_details handles missing video
+ok 146 get_video_details handles missing title
+ok 147 get_single_video_playlist_entry fails when URL is empty
+ok 148 get_single_video_playlist_entry fails when URL is not provided
+ok 149 get_single_video_playlist_entry fails when video ID cannot be extracted
+ok 150 get_single_video_playlist_entry creates playlist entry for valid video
+ok 151 get_single_video_playlist_entry handles empty video details gracefully
+ok 152 YouTube playlist with mixed video availability
+ok 153 YouTube URL parsing integration with real URLs
+ok 154 complete YouTube playlist creation workflow
+ok 155 YouTube video URL to playlist entry workflow
+ok 156 YouTube API error handling in integration

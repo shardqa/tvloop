@@ -3,11 +3,16 @@
 # Content test helper functions
 
 setup_content_test_env() {
-    export TEST_DIR="/tmp/tvloop_test_$$"
+    # Create unique test environment
+    local test_id="${BATS_TEST_NUMBER:-$$}_${BATS_TEST_NAME:-test}"
+    test_id=$(echo "$test_id" | tr ' ' '_' | tr ':' '_')
+    export TEST_DIR="/tmp/tvloop_test_${test_id}_$$"
     export TEST_VIDEOS_DIR="$TEST_DIR/videos"
     export TEST_PLAYLIST_FILE="$TEST_DIR/playlist.txt"
     
+    # Create all necessary directories
     mkdir -p "$TEST_VIDEOS_DIR"
+    mkdir -p "logs"
     
     # Create test video files with different extensions
     # For testing, we'll create files that ffprobe can read
