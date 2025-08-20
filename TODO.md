@@ -2,67 +2,62 @@
 
 ## Overview
 
-This document provides a comprehensive TODO list for the 24-Hour Video Channel project, organized by development phases and areas of focus.
+This document contains the active TODO list for the 24-Hour Video Channel project, organized by priority. Completed tasks have been moved to [COMPLETED_TASKS.md](COMPLETED_TASKS.md).
 
-## Development Phases
+## Active Tasks (Ordered by Priority)
 
-- **[Phase 1: Basic Time Tracking System](docs/todo/phase1.md)** - Core infrastructure and time tracking
-- **[Phase 2: Video Player Integration](docs/todo/phase2.md)** - Player integration and playback control
-- **[Phase 3: Channel Management](docs/todo/phase3.md)** - Multi-channel support and advanced features
-- **[Phase 4: Content Source Integration](docs/todo/phase4.md)** - Local and YouTube content integration
+### 🔥 High Priority - Next Actions
 
-## Additional Areas
+**Note**: The unit tests are taking so long. A way to run them in parallel is needed.
 
-- **[Testing and Validation](docs/todo/testing.md)** - Functionality and integration testing
-- **[Documentation](docs/todo/documentation.md)** - User and technical documentation
+### 📋 Medium Priority - Enhancement Tasks
 
-## Current Status
+1. **Testing Enhancements** (Next Priority)
+   - Add YouTube API integration tests
+   - Create mock YouTube API responses for testing
+   - Add YouTube playback integration tests
+   - Priority: **MEDIUM** - Important for reliability
+   - ✅ Refactored large test files into focused modules (test_time_utils, test_player_utils_edge_cases, test_channel_state_edge_cases)
+   - ✅ Refactored youtube_api.sh into focused modules (core, parsing, video, playlist)
+   - ✅ Further split remaining large test files to ensure all files are under 100 lines
 
-The project has completed the initial refactoring phase with all files organized into modular components under 100 lines each. 
+2. **YouTube Subscription Management**
+   - Add YouTube channel subscription support
+   - Implement automatic playlist updates from subscriptions
+   - Create subscription configuration management
+   - Priority: **MEDIUM** - Nice to have feature
 
-**Completed Phases:**
-- ✅ **Phase 1: Basic Time Tracking System** - Core infrastructure, channel state management, playlist management
-- ✅ **Phase 2: Video Player Integration** - MPV/VLC integration, playback control, timestamp calculation
-- ✅ **Phase 3: Channel Management** - Multi-channel support, channel switching, configuration management
-- ✅ **Phase 4: Local Content Integration** - Local folder scanning, playlist generation, metadata extraction
-- ✅ **Test Refactoring** - Large test files split into focused, maintainable components under 100 lines each
+3. **Improve Test Coverage**
+   - Add more tests to reach 80%+ project-only coverage
+   - Current project-only coverage is 46% (360/779 lines)
+   - Priority: **MEDIUM** - Good progress made, continue improving
 
-**Remaining Work:**
-- 🔄 **Phase 4: YouTube Integration** - YouTube API integration, online playback, subscription management, channel-specific 24-hour programming
+### 🔧 Low Priority - Polish Tasks
 
-## Recent Refactoring (Completed)
+4. **Performance Optimizations**
+   - Optimize YouTube API calls with caching
+   - Improve playlist loading performance
+   - Add background playlist updates
+   - Priority: **LOW** - Optimization tasks
 
-**Test File Refactoring:**
-- ✅ **test_player_integration.bats** (111 lines) → Split into:
-  - `test_helper/player_helpers.bash` (30 lines) - Common player setup/teardown
-  - `test_player_setup.bats` (40 lines) - Basic setup and initialization tests
-  - `test_player_mpv.bats` (35 lines) - MPV-specific tests
-  - `test_player_vlc.bats` (35 lines) - VLC-specific tests
-  - `test_player_control.bats` (40 lines) - Player control and timestamp tests
+5. **User Interface Improvements**
+   - Add YouTube channel selection interface
+   - Create playlist preview functionality
+   - Add video thumbnail display
+   - Priority: **LOW** - UI polish
 
-- ✅ **test_channel_management.bats** (113 lines) → Split into:
-  - `test_helper/channel_helpers.bash` (25 lines) - Common channel setup/teardown
-  - `test_channel_setup.bats` (45 lines) - Basic channel initialization tests
-  - `test_channel_isolation.bats` (40 lines) - Channel state isolation tests
-  - `test_channel_switching.bats` (45 lines) - Channel switching and config tests
+## Quick Start Guide
 
-- ✅ **test_content_integration.bats** (101 lines) → Split into:
-  - `test_helper/content_helpers.bash` (25 lines) - Common content setup/teardown
-  - `test_content_setup.bats` (40 lines) - Basic playlist creation tests
-  - `test_content_playlist.bats` (40 lines) - Playlist management tests
-  - `test_content_metadata.bats` (40 lines) - Metadata and format tests
+When you're ready to work on this project:
 
-**Benefits of Refactoring:**
-- All test files now under 100 lines as requested
-- Clear separation of concerns with focused test files
-- Reusable helper functions to avoid code duplication
-- Better maintainability and easier debugging
-- Follows Bats testing framework best practices
-- Improved test organization and readability
+1. **YouTube Integration is Complete!** - All YouTube functionality is now implemented
+2. **Set up YouTube Data API credentials** - Follow the guide in `docs/youtube_setup.md`
+3. **Create YouTube playlists** - Use `scripts/youtube_playlist_manager.sh`
+4. **Play YouTube channels** - Use `scripts/youtube_channel_player.sh`
+5. **Next: Add YouTube API integration tests** - Improve test coverage for YouTube features
 
-## Next Steps
+## Reference
 
-1. Review and prioritize items in each phase
-2. Focus on Phase 1 completion before moving to Phase 2
-3. Implement testing alongside feature development
-4. Maintain documentation as features are completed
+- **Completed Tasks**: See [COMPLETED_TASKS.md](COMPLETED_TASKS.md) for all completed work
+- **Detailed Phase Documentation**: See `docs/todo/` directory for comprehensive phase details
+- **Project Status**: All core functionality is complete, YouTube integration is fully implemented
