@@ -128,9 +128,9 @@ test-coverage:
 	if command -v bashcov >/dev/null 2>&1; then \
 		if [ -f "node_modules/.bin/bats" ]; then \
 			if command -v parallel >/dev/null 2>&1; then \
-				bashcov --skip-uncovered -- ./node_modules/.bin/bats --jobs $(JOBS) tests/unit/ 2>/dev/null; \
+				bashcov --skip-uncovered -- ./node_modules/.bin/bats --jobs $(JOBS) tests/unit/; \
 			else \
-				bashcov --skip-uncovered -- ./node_modules/.bin/bats tests/unit/ 2>/dev/null; \
+				bashcov --skip-uncovered -- ./node_modules/.bin/bats tests/unit/; \
 			fi; \
 			echo ""; \
 			./scripts/coverage_analysis.sh; \
