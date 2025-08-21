@@ -5,6 +5,11 @@
 
 setup() {
     load '../test_helper/player_helpers'
+    
+    # Call the player test environment setup to ensure TEST_MODE is set
+    setup_player_test_env
+    
+    # Override the TEST_CHANNEL_DIR to use our custom path structure
     export TEST_DIR="/tmp/tvloop_test_$$"
     export TEST_CHANNEL_DIR="$TEST_DIR/channel"
     export TEST_PLAYLIST_FILE="$TEST_CHANNEL_DIR/playlist.txt"

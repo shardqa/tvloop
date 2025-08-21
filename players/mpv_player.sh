@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Source common functions
+source "$(dirname "$0")/../core/common.bash"
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
@@ -25,12 +28,21 @@ launch_mpv() {
     
     log "Launching mpv: $actual_video_path at position ${start_position}s"
     
+    # Check if we're in test mode for headless operation
+    local headless_opts=""
+    if [[ "${TEST_MODE:-false}" == "true" ]]; then
+        log "Running mpv in headless test mode"
+        headless_opts="--no-video --vo=null --no-terminal --no-osc --no-osd-bar --no-input-default-bindings --no-input-terminal"
+    else
+        headless_opts="--force-window --geometry=50%:50%"
+    fi
+    
     # For YouTube URLs, use mpv's built-in YouTube support
     if [[ "$actual_video_path" =~ youtube\.com ]]; then
         log "Using mpv's built-in YouTube support"
         # mpv will automatically use yt-dlp if available
         mpv --start="$start_position" \
-            --force-window \
+            $headless_opts \
             --ytdl-raw-options="cookies-from-browser=firefox,format=134" \
             --msg-level=all=v \
             "$actual_video_path" &
@@ -41,17 +53,15 @@ launch_mpv() {
         return 0
     fi
     
-    # Ensure we have display environment
-    export DISPLAY="${DISPLAY:-:0}"
+    # Ensure we have display environment (only needed for non-headless mode)
+    if [[ "${TEST_MODE:-false}" != "true" ]]; then
+        export DISPLAY="${DISPLAY:-:0}"
+    fi
     
-    # Run mpv with Wayland support
+    # Run mpv with appropriate options
     mpv --start="$start_position" \
-        --force-window \
-        --geometry=50%:50% \
-        --vo=gpu \
-        --gpu-context=wayland \
+        $headless_opts \
         --msg-level=all=v \
-        --no-terminal \
         "$actual_video_path" &
     
     # Store PID for later management

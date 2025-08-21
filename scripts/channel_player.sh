@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Source common functions
+source "$(dirname "$0")/../core/common.bash"
+
 CHANNEL_DIR="${1:-channels/channel_1}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

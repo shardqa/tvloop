@@ -11,6 +11,9 @@ setup_channel_test_env() {
     export CHANNEL_2_DIR="$TEST_DIR/channel_2"
     export CHANNEL_3_DIR="$TEST_DIR/channel_3"
     
+    # Enable headless mode for testing
+    export TEST_MODE="true"
+    
     # Create all necessary directories
     mkdir -p "$CHANNEL_1_DIR" "$CHANNEL_2_DIR" "$CHANNEL_3_DIR"
     mkdir -p "logs"

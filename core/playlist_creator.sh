@@ -48,7 +48,7 @@ create_playlist_from_directory() {
         else
             log "WARNING: Could not determine duration for: $video_file"
         fi
-    done < <(find "$videos_dir" -type f \( $(echo "$extensions" | sed 's/,/ -o -name "*.&/g' | sed 's/^/-name "*.&/') \) -print0 | sort -z)
+    done < <(find "$videos_dir" -type f \( -name "*.mp4" -o -name "*.mkv" -o -name "*.avi" \) -print0 | sort -z)
     
     echo "Playlist created with $count videos: $playlist_file"
     

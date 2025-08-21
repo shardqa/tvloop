@@ -28,27 +28,18 @@ launch_youtube_mpv() {
     
     log "Launching YouTube video with mpv: $video_id at position ${start_position}s"
     
+    # Check if we're in test mode for headless operation
+    local headless_opts=""
+    if [[ "${TEST_MODE:-false}" == "true" ]]; then
+        log "Running YouTube mpv in headless test mode"
+        headless_opts="--no-video --vo=null --no-terminal --no-osc --no-osd-bar --no-input-default-bindings --no-input-terminal"
+    else
+        headless_opts="--no-osc --no-osd-bar --no-input-default-bindings"
+    fi
+    
     # Use yt-dlp to get the direct stream URL and pipe to mpv
     yt-dlp -f "best[height<=1080]" --get-url "https://www.youtube.com/watch?v=$video_id" | \
-    mpv --start="$start_position" --no-osc --no-osd-bar --no-input-default-bindings \
-        --no-input-vo-keyboard --no-input-terminal --no-input-media-keys \
-        --no-input-right-alt-gr --no-input-cursor --no-input-mouse-cursor \
-        --no-input-double-click-time --no-input-drag-start --no-input-drag-drop \
-        --no-input-key-fifo-size --no-input-cmdlist --no-input-test \
-        --no-input-keylist --no-input-mouse-button --no-input-joystick \
-        --no-input-appleremote --no-input-cocoa-cb --no-input-vo-cursor \
-        --no-input-vo-keyboard --no-input-vo-mouse --no-input-vo-touch \
-        --no-input-vo-tablet --no-input-vo-pen --no-input-vo-eraser \
-        --no-input-vo-cursor-visible --no-input-vo-cursor-visible-delay \
-        --no-input-vo-cursor-visible-timeout --no-input-vo-cursor-visible-fade \
-        --no-input-vo-cursor-visible-fade-delay --no-input-vo-cursor-visible-fade-timeout \
-        --no-input-vo-cursor-visible-fade-duration --no-input-vo-cursor-visible-fade-easing \
-        --no-input-vo-cursor-visible-fade-easing-param --no-input-vo-cursor-visible-fade-easing-param2 \
-        --no-input-vo-cursor-visible-fade-easing-param3 --no-input-vo-cursor-visible-fade-easing-param4 \
-        --no-input-vo-cursor-visible-fade-easing-param5 --no-input-vo-cursor-visible-fade-easing-param6 \
-        --no-input-vo-cursor-visible-fade-easing-param7 --no-input-vo-cursor-visible-fade-easing-param8 \
-        --no-input-vo-cursor-visible-fade-easing-param9 --no-input-vo-cursor-visible-fade-easing-param10 \
-        - &
+    mpv --start="$start_position" $headless_opts - &
     
     local mpv_pid=$!
     echo "$mpv_pid" > "$channel_dir/youtube_mpv.pid"

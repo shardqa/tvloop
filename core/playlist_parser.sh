@@ -24,14 +24,23 @@ parse_playlist() {
         
         if [[ "$video_path" =~ ^youtube:// ]]; then
             # YouTube video - use provided duration
-            videos+=("$video_path")
-            durations+=("${duration:-0}")
-            total_duration=$((total_duration + ${duration:-0}))
+            if [[ "$duration" =~ ^[0-9]+$ ]]; then
+                videos+=("$video_path")
+                durations+=("$duration")
+                total_duration=$((total_duration + duration))
+            else
+                log "WARNING: Invalid duration for YouTube video: ${duration:-unknown}"
+            fi
         elif [[ -f "$video_path" ]]; then
             # Local file
-            videos+=("$video_path")
-            durations+=("${duration:-$(get_video_duration "$video_path")}")
-            total_duration=$((total_duration + ${duration:-$(get_video_duration "$video_path")}))
+            local actual_duration="${duration:-$(get_video_duration "$video_path")}"
+            if [[ "$actual_duration" =~ ^[0-9]+$ ]] && [[ $actual_duration -gt 0 ]]; then
+                videos+=("$video_path")
+                durations+=("$actual_duration")
+                total_duration=$((total_duration + actual_duration))
+            else
+                log "WARNING: Invalid duration for local file: ${video_path:-unknown} (duration: ${actual_duration:-unknown})"
+            fi
         else
             log "WARNING: Video file not found: $video_path"
         fi

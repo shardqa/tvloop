@@ -15,6 +15,36 @@ test:
 		exit 1; \
 	fi
 
+# Sequential testing for player-related tests (to avoid conflicts)
+test-players-seq:
+	@echo "Running player tests sequentially to avoid conflicts..."
+	@if [ -f "node_modules/.bin/bats" ]; then \
+		./node_modules/.bin/bats tests/unit/test_player_helpers_launch_basic.bats; \
+		./node_modules/.bin/bats tests/unit/test_player_helpers_launch_errors.bats; \
+		./node_modules/.bin/bats tests/unit/test_player_helpers_stop.bats; \
+		./node_modules/.bin/bats tests/unit/test_player_mpv.bats; \
+		./node_modules/.bin/bats tests/unit/test_player_vlc.bats; \
+		./node_modules/.bin/bats tests/unit/test_channel_switching.bats; \
+	else \
+		echo "Bats not found. Run: npm install"; \
+		exit 1; \
+	fi
+
+# Parallel testing excluding player tests
+test-no-players:
+	@echo "Running tests in parallel (excluding player tests)..."
+	@if [ -f "node_modules/.bin/bats" ]; then \
+		if command -v parallel >/dev/null 2>&1; then \
+			./node_modules/.bin/bats --jobs $(JOBS) tests/unit/ --filter '!player' --filter '!channel_switching'; \
+		else \
+			echo "GNU parallel not found. Running tests sequentially..."; \
+			./node_modules/.bin/bats tests/unit/ --filter '!player' --filter '!channel_switching'; \
+		fi \
+	else \
+		echo "Bats not found. Run: npm install"; \
+		exit 1; \
+	fi
+
 test-unit:
 	@echo "Running unit tests in parallel (jobs: $(JOBS))..."
 	@if [ -f "node_modules/.bin/bats" ]; then \
@@ -94,20 +124,20 @@ test-max:
 
 test-coverage:
 	@echo "Running tests with coverage in parallel (jobs: $(JOBS))..."
-	@export PATH="$$HOME/.local/share/gem/ruby/3.4.0/gems/bashcov-3.2.0/bin:$$PATH"; \
+	@export PATH="$$HOME/.local/share/gem/ruby/3.4.0/gems/bashcov-3.2.0/bin:$$PATH" && \
 	if command -v bashcov >/dev/null 2>&1; then \
 		if [ -f "node_modules/.bin/bats" ]; then \
 			if command -v parallel >/dev/null 2>&1; then \
 				bashcov --skip-uncovered -- ./node_modules/.bin/bats --jobs $(JOBS) tests/unit/ 2>/dev/null; \
 			else \
 				bashcov --skip-uncovered -- ./node_modules/.bin/bats tests/unit/ 2>/dev/null; \
-			fi \
+			fi; \
 			echo ""; \
 			./scripts/coverage_analysis.sh; \
 		else \
 			echo "Bats not found. Run: npm install"; \
 			exit 1; \
-		fi \
+		fi; \
 	else \
 		echo "bashcov not found. Install with: gem install --user-install bashcov"; \
 		echo "Running tests without coverage..."; \

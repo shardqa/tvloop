@@ -48,10 +48,19 @@ teardown() {
     [ -f "$TEST_PLAYLIST_FILE" ]
     
     # Check that titles are extracted correctly (without file extensions)
-    if grep -q "test_video1" "$TEST_PLAYLIST_FILE"; then
-        grep -q "test_video1" "$TEST_PLAYLIST_FILE"
-        ! grep -q "test_video1.mp4" "$TEST_PLAYLIST_FILE"
-    fi
+    # The playlist format is: path|title|duration
+    # We check that the title fields (second field) don't contain the extension
+    # Since the playlist is shuffled, we need to check both videos
+    local title_fields=$(cut -d'|' -f2 "$TEST_PLAYLIST_FILE" | tr -d '\n')
+    echo "Title fields: $title_fields"
+    
+    # Check that we have both test_video1 and test_video2 (without extensions)
+    echo "$title_fields" | grep -q "test_video1"
+    echo "$title_fields" | grep -q "test_video2"
+    
+    # Check that we don't have the extensions
+    ! echo "$title_fields" | grep -q "test_video1.mp4"
+    ! echo "$title_fields" | grep -q "test_video2.mp4"
 }
 
 @test "playlist creation with custom extensions" {

@@ -19,9 +19,9 @@ setup_content_test_env() {
     # Create a simple video file using ffmpeg if available
     if command -v ffmpeg >/dev/null 2>&1; then
         # Create a 1-second test video
-        ffmpeg -f lavfi -i testsrc=duration=1:size=320x240:rate=1 -c:v mpeg4 -t 1 "$TEST_VIDEOS_DIR/test_video1.mp4" -y >/dev/null 2>&1 || true
-        ffmpeg -f lavfi -i testsrc=duration=1:size=320x240:rate=1 -c:v mpeg4 -t 1 "$TEST_VIDEOS_DIR/test_video2.mkv" -y >/dev/null 2>&1 || true
-        ffmpeg -f lavfi -i testsrc=duration=1:size=320x240:rate=1 -c:v mpeg4 -t 1 "$TEST_VIDEOS_DIR/test_video3.avi" -y >/dev/null 2>&1 || true
+        ffmpeg -f lavfi -i testsrc=duration=1:size=320x240:rate=1 -c:v mpeg4 -t 1 "$TEST_VIDEOS_DIR/test_video1.mp4" -y
+        ffmpeg -f lavfi -i testsrc=duration=1:size=320x240:rate=1 -c:v mpeg4 -t 1 "$TEST_VIDEOS_DIR/test_video2.mkv" -y
+        ffmpeg -f lavfi -i testsrc=duration=1:size=320x240:rate=1 -c:v mpeg4 -t 1 "$TEST_VIDEOS_DIR/test_video3.avi" -y
     else
         # Fallback: create dummy files
         echo "test content" > "$TEST_VIDEOS_DIR/test_video1.mp4"
