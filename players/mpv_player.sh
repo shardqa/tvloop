@@ -25,10 +25,20 @@ launch_mpv() {
     
     log "Launching mpv: $actual_video_path at position ${start_position}s"
     
-    # For YouTube URLs, let mpv handle them directly with yt-dlp integration
+    # For YouTube URLs, use mpv's built-in YouTube support
     if [[ "$actual_video_path" =~ youtube\.com ]]; then
-        log "Using mpv's built-in yt-dlp integration for YouTube URL"
-        # mpv will use yt-dlp automatically for YouTube URLs
+        log "Using mpv's built-in YouTube support"
+        # mpv will automatically use yt-dlp if available
+        mpv --start="$start_position" \
+            --force-window \
+            --ytdl-raw-options="cookies-from-browser=firefox,format=134" \
+            --msg-level=all=v \
+            "$actual_video_path" &
+        
+        local mpv_pid=$!
+        echo "$mpv_pid" > "$channel_dir/mpv.pid"
+        log "mpv launched with PID: $mpv_pid"
+        return 0
     fi
     
     # Ensure we have display environment
