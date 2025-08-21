@@ -17,6 +17,11 @@ parse_playlist() {
     local total_duration=0
     
     while IFS='|' read -r video_path title duration; do
+        # Skip comment lines (starting with #)
+        if [[ "$video_path" =~ ^# ]]; then
+            continue
+        fi
+        
         if [[ "$video_path" =~ ^youtube:// ]]; then
             # YouTube video - use provided duration
             videos+=("$video_path")

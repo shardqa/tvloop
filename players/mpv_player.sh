@@ -25,27 +25,36 @@ launch_mpv() {
     
     log "Launching mpv: $actual_video_path at position ${start_position}s"
     
-    # For YouTube URLs, use yt-dlp to get the direct stream URL
+    # For YouTube URLs, let mpv handle them directly with yt-dlp integration
     if [[ "$actual_video_path" =~ youtube\.com ]]; then
-        log "Getting direct stream URL using yt-dlp"
-        local stream_urls=$(yt-dlp --get-url "$actual_video_path" 2>/dev/null)
-        if [[ $? -eq 0 && -n "$stream_urls" ]]; then
-            # Take the first URL (usually the video stream)
-            actual_video_path=$(echo "$stream_urls" | head -1)
-            log "Using direct stream URL: $actual_video_path"
-        else
-            log "ERROR: Could not get stream URL from yt-dlp"
-            return 1
-        fi
+        log "Using mpv's built-in yt-dlp integration for YouTube URL"
+        # mpv will use yt-dlp automatically for YouTube URLs
     fi
     
-    mpv --start="$start_position" --no-osc --no-osd-bar \
-        --no-input-terminal --no-input-media-keys \
-        --no-input-right-alt-gr \
-        --geometry=50%:50% --autofit=1280x720 \
+    # Ensure we have display environment
+    export DISPLAY="${DISPLAY:-:0}"
+    
+    # Run mpv with Wayland support
+    mpv --start="$start_position" \
+        --force-window \
+        --geometry=50%:50% \
+        --vo=gpu \
+        --gpu-context=wayland \
+        --msg-level=all=v \
+        --no-terminal \
         "$actual_video_path" &
     
+    # Store PID for later management
     local mpv_pid=$!
     echo "$mpv_pid" > "$channel_dir/mpv.pid"
     log "mpv launched with PID: $mpv_pid"
+    
+    # Give mpv a moment to start
+    sleep 2
+    
+    # Check if mpv is still running
+    if ! kill -0 "$mpv_pid" 2>/dev/null; then
+        log "ERROR: mpv failed to start or crashed"
+        return 1
+    fi
 }

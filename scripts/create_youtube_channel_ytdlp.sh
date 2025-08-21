@@ -7,42 +7,17 @@ CHANNEL_NAME="${1:-youtube_channel}"
 YOUTUBE_CHANNEL="${2:-}"
 TARGET_HOURS="${3:-24}"
 AUTO_START="${4:-false}"
+QUALITY="${5:-232,609}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
 source "$PROJECT_ROOT/core/logging.sh"
-source "$PROJECT_ROOT/core/youtube_ytdlp.sh"
+source "$PROJECT_ROOT/core/youtube_ytdlp_playlist.sh"
+source "$PROJECT_ROOT/scripts/youtube_channel_usage.sh"
 
 show_usage() {
-    echo "🎬 YouTube Channel Creator for tvloop (yt-dlp version)"
-    echo ""
-    echo "Usage: $0 <channel_name> <youtube_channel> [target_hours] [auto_start]"
-    echo ""
-    echo "Parameters:"
-    echo "  channel_name     - Name for the new channel (e.g., 'jovem_nerd', 'tech_channel')"
-    echo "  youtube_channel  - YouTube channel (URL, @username, or channel ID)"
-    echo "  target_hours     - Target duration in hours (default: 24)"
-    echo "  auto_start       - 'true' to start playing immediately (optional)"
-    echo ""
-    echo "YouTube Channel Formats:"
-    echo "  - Channel URL: https://www.youtube.com/@JovemNerd"
-    echo "  - Username: @JovemNerd"
-    echo "  - Channel ID: UC..."
-    echo ""
-    echo "Examples:"
-    echo "  $0 jovem_nerd https://www.youtube.com/@JovemNerd"
-    echo "  $0 tech_channel @JovemNerd 12"
-    echo "  $0 gaming_channel UC1234567890 48 true"
-    echo ""
-    echo "This script will:"
-    echo "  1. Create channel directory"
-    echo "  2. Fetch videos from YouTube channel using yt-dlp"
-    echo "  3. Create 24-hour playlist automatically"
-    echo "  4. Initialize channel with timing"
-    echo "  5. Start playing (if auto_start=true)"
-    echo ""
-    echo "No API key required! Uses yt-dlp for direct YouTube access."
+    show_youtube_channel_usage
 }
 
 create_youtube_channel_ytdlp() {
@@ -70,7 +45,8 @@ create_youtube_channel_ytdlp() {
     
     # Step 3: Create playlist from YouTube channel using yt-dlp
     echo "📋 Creating playlist from YouTube channel..."
-    create_channel_playlist_ytdlp "$youtube_channel" "$channel_dir/playlist.txt" "$target_hours"
+    echo "🎥 Quality setting: $QUALITY"
+    create_channel_playlist_ytdlp "$youtube_channel" "$channel_dir/playlist.txt" "$target_hours" "100" "$QUALITY"
     
     if [[ $? -ne 0 ]]; then
         log "ERROR: Failed to create playlist from YouTube channel"

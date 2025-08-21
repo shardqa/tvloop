@@ -68,3 +68,4 @@ client_secret*.json
 .Trashes
 ehthumbs.db
 Thumbs.db
+channels/
