@@ -26,7 +26,19 @@ validate_playlist() {
     echo "----------------------------------------"
     
     while IFS='|' read -r video_path title duration; do
-        if [[ -f "$video_path" ]]; then
+        if [[ "$video_path" =~ ^youtube:// ]]; then
+            # YouTube video - use provided duration
+            local video_id=$(echo "$video_path" | sed 's|^youtube://||')
+            if [[ -n "$duration" && "$duration" != "0" ]]; then
+                echo "✅ YouTube: $title - ${duration}s"
+                valid_count=$((valid_count + 1))
+                total_duration=$((total_duration + duration))
+            else
+                echo "❌ YouTube: $title - Duration not available"
+                invalid_count=$((invalid_count + 1))
+            fi
+        elif [[ -f "$video_path" ]]; then
+            # Local file
             local actual_duration=$(get_video_duration "$video_path")
             local expected_duration="${duration:-$actual_duration}"
             

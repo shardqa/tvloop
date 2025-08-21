@@ -17,7 +17,13 @@ parse_playlist() {
     local total_duration=0
     
     while IFS='|' read -r video_path title duration; do
-        if [[ -f "$video_path" ]]; then
+        if [[ "$video_path" =~ ^youtube:// ]]; then
+            # YouTube video - use provided duration
+            videos+=("$video_path")
+            durations+=("${duration:-0}")
+            total_duration=$((total_duration + ${duration:-0}))
+        elif [[ -f "$video_path" ]]; then
+            # Local file
             videos+=("$video_path")
             durations+=("${duration:-$(get_video_duration "$video_path")}")
             total_duration=$((total_duration + ${duration:-$(get_video_duration "$video_path")}))

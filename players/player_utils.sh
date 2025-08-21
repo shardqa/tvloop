@@ -15,7 +15,7 @@ source "$PROJECT_ROOT/players/player_launcher.sh"
 source "$PROJECT_ROOT/players/player_controller.sh"
 source "$PROJECT_ROOT/players/player_monitor.sh"
 
-# Get current video position in playlist cycle
+# Get current video position in playlist cycle (on-demand calculation)
 get_current_video_position() {
     local channel_dir="$1"
     local state_file="$channel_dir/state.json"
@@ -34,6 +34,7 @@ get_current_video_position() {
         return 1
     fi
     
+    # Calculate what should be playing now based on elapsed time
     local elapsed_time=$(($(date +%s) - start_time))
     local position_in_cycle=$((elapsed_time % total_duration))
     
@@ -41,7 +42,7 @@ get_current_video_position() {
     local video_index=0
     
     while IFS='|' read -r video_path title duration; do
-        if [[ -f "$video_path" ]]; then
+        if [[ -f "$video_path" || "$video_path" =~ ^youtube:// ]]; then
             if [[ $position_in_cycle -lt $((current_time + duration)) ]]; then
                 local video_position=$((position_in_cycle - current_time))
                 echo "$video_path|$video_position|$duration"

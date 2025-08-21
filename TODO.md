@@ -19,7 +19,19 @@ This document contains the active TODO list for the 24-Hour Video Channel projec
    - ✅ Refactored youtube_api.sh into focused modules (core, parsing, video, playlist)
    - ✅ Further split remaining large test files to ensure all files are under 100 lines
 
-2. **YouTube Subscription Management**
+2. **YouTube Channel-Based Channels** ✅ **COMPLETED**
+   - ✅ Create 24-hour channels from YouTube channels
+   - ✅ Fetch videos from any YouTube channel automatically
+   - ✅ Build playlists to target duration (24h, 12h, etc.)
+   - ✅ Support multiple channel formats (URL, @username, channel ID)
+   - ✅ Automatic channel initialization and time tracking
+   - ✅ Comprehensive guide and documentation
+   - ✅ Integration with existing channel system
+   - ✅ **yt-dlp Integration** - No API key required alternative
+   - ✅ **Documentation Refactoring** - Split into 16 focused files under 100 lines each
+   - Priority: **COMPLETED** - Full YouTube channel integration (API + yt-dlp)
+
+3. **YouTube Subscription Management**
    - Add YouTube channel subscription support
    - Implement automatic playlist updates from subscriptions
    - Create subscription configuration management
@@ -48,11 +60,12 @@ This document contains the active TODO list for the 24-Hour Video Channel projec
 
 When you're ready to work on this project:
 
-1. **YouTube Integration is Complete!** - All YouTube functionality is now implemented
-2. **Set up YouTube Data API credentials** - Follow the guide in `docs/youtube_setup.md`
-3. **Create YouTube playlists** - Use `scripts/youtube_playlist_manager.sh`
-4. **Play YouTube channels** - Use `scripts/youtube_channel_player.sh`
-5. **Next: YouTube Subscription Management** - Add YouTube channel subscription support and automatic playlist updates
+1. **YouTube Channel Integration is Complete!** - Create 24-hour channels from any YouTube channel
+2. **Two Options Available:**
+   - **API Version**: `scripts/create_youtube_channel.sh` (requires API key)
+   - **yt-dlp Version**: `scripts/create_youtube_channel_ytdlp.sh` (no API key needed)
+3. **Create local media channels** - Use `scripts/create_channel.sh`
+4. **Next: YouTube Subscription Management** - Add YouTube channel subscription support and automatic playlist updates
 
 ## Reference
 

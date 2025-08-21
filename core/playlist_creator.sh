@@ -51,6 +51,16 @@ create_playlist_from_directory() {
     done < <(find "$videos_dir" -type f \( $(echo "$extensions" | sed 's/,/ -o -name "*.&/g' | sed 's/^/-name "*.&/') \) -print0 | sort -z)
     
     echo "Playlist created with $count videos: $playlist_file"
+    
+    # Shuffle the playlist for TV-like randomness
+    echo "🔀 Shuffling playlist..."
+    local temp_playlist="$playlist_file.tmp"
+    tail -n +2 "$playlist_file" | shuf > "$temp_playlist"
+    echo "$(head -n 1 "$playlist_file")" > "$playlist_file"
+    cat "$temp_playlist" >> "$playlist_file"
+    rm "$temp_playlist"
+    echo "✅ Playlist shuffled!"
+    
     if [[ $skipped_large -gt 0 ]]; then
         echo "Skipped $skipped_large files that were too large (>${max_size_mb}MB)"
     fi
@@ -71,7 +81,17 @@ show_playlist_info() {
     echo "----------------------------------------"
     
     while IFS='|' read -r video_path title duration; do
-        if [[ -f "$video_path" ]]; then
+        if [[ "$video_path" =~ ^youtube:// ]]; then
+            # YouTube video
+            local video_id=$(echo "$video_path" | sed 's|^youtube://||')
+            echo "$((video_count + 1)). YouTube: $title"
+            echo "    Video ID: $video_id"
+            echo "    Duration: ${duration}s"
+            echo ""
+            total_duration=$((total_duration + duration))
+            video_count=$((video_count + 1))
+        elif [[ -f "$video_path" ]]; then
+            # Local file
             local actual_duration=$(get_video_duration "$video_path")
             echo "$((video_count + 1)). $(basename "$video_path")"
             echo "    Duration: ${actual_duration}s"

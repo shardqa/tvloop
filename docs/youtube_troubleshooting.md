@@ -1,86 +1,102 @@
-# YouTube Troubleshooting Guide
+# 🎬 YouTube Channel Troubleshooting
 
-This guide helps you resolve common issues with YouTube integration in tvloop.
+## API Version Issues
 
-## API Key Issues
+### YouTube API Key Issues
+```bash
+# Check if API key is set
+echo $YOUTUBE_API_KEY
 
-### Problem: API key not working
-**Solutions:**
-- Make sure your API key is correct
-- Check that YouTube Data API v3 is enabled
-- Verify your API key has the necessary permissions
-- Ensure the API key is set as environment variable: `YOUTUBE_API_KEY`
+# Test API connection
+curl "https://www.googleapis.com/youtube/v3/search?part=snippet&q=test&key=$YOUTUBE_API_KEY"
+```
 
-### Problem: API quota exceeded
-**Solutions:**
-- Check your usage in Google Cloud Console
-- Wait for quota reset (daily)
-- Consider requesting quota increase
-- Monitor API usage to avoid future issues
+### API Key Problems
+- **Invalid key**: Verify the key is correct
+- **API not enabled**: Enable YouTube Data API v3
+- **Quota exceeded**: Check usage in Google Cloud Console
+- **Permission denied**: Check API key permissions
 
-## yt-dlp Issues
+### API Quota Exceeded
+- YouTube Data API has daily quotas
+- Check your quota usage in Google Cloud Console
+- Consider upgrading your API plan
 
-### Problem: yt-dlp not found
-**Solutions:**
-- Install yt-dlp: `pip install yt-dlp`
-- Update yt-dlp: `pip install --upgrade yt-dlp`
-- Check if yt-dlp is in your PATH
+## yt-dlp Version Issues
 
-### Problem: Video not accessible
-**Solutions:**
-- Check if YouTube is accessible from your network
-- Some videos may be region-restricted
-- Try a different video to test
-- Check if the video is age-restricted or private
+### yt-dlp Not Found
+```bash
+# Check if yt-dlp is installed
+which yt-dlp
 
-### Problem: Slow video loading
-**Solutions:**
-- Check your internet connection
-- Try a different video quality setting
-- Consider using a different player (mpv vs VLC)
+# Install if missing
+pip install yt-dlp
+# or
+sudo apt install yt-dlp
+```
 
-## Player Issues
+### yt-dlp Problems
+- **Rate limiting**: Add delays between requests
+- **YouTube changes**: Update yt-dlp to latest version
+- **Network issues**: Check connectivity and proxies
 
-### Problem: mpv/VLC not found
-**Solutions:**
-- Install the required player:
-  ```bash
-  sudo apt install mpv  # Ubuntu/Debian
-  brew install mpv      # macOS
-  ```
-- Make sure the player is in your PATH
-- Try a different player type
+## Common Issues
 
-### Problem: Video won't play
-**Solutions:**
-- Check that the video player supports the video format
-- Try a different player (mpv vs VLC)
-- Check if the video file exists (for local videos)
-- Verify the video URL is accessible
+### Channel Not Found
+- Verify the channel URL/username is correct
+- Check if the channel is public
+- Try using the channel ID instead of username
 
-## Common Error Messages
+### No Videos Found
+- Check if the channel has uploaded videos
+- Verify API key has proper permissions (API version)
+- Verify yt-dlp is working correctly (yt-dlp version)
+- Check API quota limits (API version)
 
-### "YouTube API key not configured"
-- Set the `YOUTUBE_API_KEY` environment variable
-- Restart your terminal after setting the variable
+### Playlist Too Short
+- The channel might not have enough videos
+- Try increasing the `max_videos` parameter
+- Some videos might be skipped due to duration issues
 
-### "Video not found or access denied"
-- The video may be private, deleted, or region-restricted
-- Check the video URL manually
-- Try a different video
+### Rate Limiting
+- YouTube may throttle requests if too many are made
+- Wait a few minutes and try again
+- Consider using fewer videos or longer intervals
 
-### "yt-dlp not found"
-- Install yt-dlp: `pip install yt-dlp`
-- Make sure it's in your PATH
+## Performance Issues
 
-### "Player not found"
-- Install the required video player (mpv or VLC)
-- Check that the player is accessible
+- **API version**: Check network connectivity
+- **yt-dlp version**: Each video requires individual lookup
+- Monitor system resources during processing
+- Consider using shorter target durations
 
-## See Also
+## Error Messages
 
-- [YouTube Advanced Troubleshooting](youtube_advanced_troubleshooting.md) - More complex issues
-- [YouTube Setup Guide](youtube_setup.md) - Initial setup
-- [YouTube Usage Guide](youtube_usage.md) - How to use YouTube features
-- [YouTube Format Reference](youtube_format.md) - Playlist format details
-- [YouTube Examples](youtube_examples.md) - Practical examples
+- **"Video file not found"**: Normal for YouTube URLs
+- **"Could not get video info"**: Video might be private/unavailable
+- **"API error"**: Check API key validity and quota usage
+
+## Getting Help
+
+```bash
+# View recent logs
+tail -f logs/channel_activity.log
+
+# Test API connection
+curl "https://www.googleapis.com/youtube/v3/search?part=snippet&q=test&key=$YOUTUBE_API_KEY"
+
+# Test yt-dlp
+yt-dlp --dump-json --no-playlist "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+
+# Check required tools
+which jq curl ffmpeg yt-dlp
+```
+
+## Prevention Tips
+
+- Monitor quotas regularly (API version)
+- Keep yt-dlp updated (yt-dlp version)
+
+---
+
+**Need help?** See setup guides.

@@ -18,6 +18,7 @@ tune_in() {
         return 1
     fi
     
+    # Calculate what should be playing now (on-demand)
     local video_data=$(get_current_video_position "$CHANNEL_DIR")
     if [[ $? -ne 0 ]]; then
         return 1
@@ -25,13 +26,15 @@ tune_in() {
     
     IFS='|' read -r video_path start_position duration <<< "$video_data"
     
-    if [[ ! -f "$video_path" ]]; then
+    if [[ ! -f "$video_path" && ! "$video_path" =~ ^youtube:// ]]; then
         log "ERROR: Video file not found: $video_path"
         return 1
     fi
     
+    # Stop any existing players
     stop_all_players "$(dirname "$CHANNEL_DIR")"
     
+    # Launch player starting from calculated position
     case "$player_type" in
         "mpv")
             launch_mpv "$video_path" "$start_position" "$CHANNEL_DIR"
@@ -45,9 +48,10 @@ tune_in() {
             ;;
     esac
     
-    echo "Tuned in to channel: $(basename "$video_path")"
-    echo "Position: ${start_position}s / ${duration}s"
-    echo "Player: $player_type"
+    echo "🎬 Tuned in to channel: $(basename "$video_path")"
+    echo "⏱️  Position: ${start_position}s / ${duration}s"
+    echo "🎮 Player: $player_type"
+    echo "📺 Channel continues playing from calculated position"
 }
 
 case "${2:-tune}" in

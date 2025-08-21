@@ -63,7 +63,12 @@ get_channel_status() {
     echo "  Start Time: $(date -d @$start_time '+%Y-%m-%d %H:%M:%S')"
     echo "  Elapsed Time: ${elapsed_time}s"
     echo "  Cycles Completed: $cycles"
-    echo "  Current Video: $(basename "$current_video")"
+    if [[ "$current_video" =~ ^youtube:// ]]; then
+        local video_id=$(echo "$current_video" | sed 's|^youtube://||')
+        echo "  Current Video: YouTube ($video_id)"
+    else
+        echo "  Current Video: $(basename "$current_video")"
+    fi
     echo "  Video Position: ${video_position}s / ${video_duration}s"
     echo "  Total Playlist Duration: ${total_duration}s"
 }
