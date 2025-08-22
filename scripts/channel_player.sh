@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source common functions
-source "$(dirname "$0")/../core/common.bash"
+# Note: common.bash doesn't exist, functions are available in other modules
 
 CHANNEL_DIR="${1:-channels/channel_1}"
 

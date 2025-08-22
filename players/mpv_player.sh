@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source common functions
-source "$(dirname "$0")/../core/common.bash"
+# Note: common.bash doesn't exist, functions are available in other modules
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
@@ -34,16 +34,16 @@ launch_mpv() {
         log "Running mpv in headless test mode"
         headless_opts="--no-video --vo=null --no-terminal --no-osc --no-osd-bar --no-input-default-bindings --no-input-terminal"
     else
-        headless_opts="--force-window --geometry=50%:50%"
+        headless_opts="--force-window --fullscreen"
     fi
     
     # For YouTube URLs, use mpv's built-in YouTube support
     if [[ "$actual_video_path" =~ youtube\.com ]]; then
         log "Using mpv's built-in YouTube support"
-        # mpv will automatically use yt-dlp if available
+        # Use best quality up to 720p for better compatibility
         mpv --start="$start_position" \
             $headless_opts \
-            --ytdl-raw-options="cookies-from-browser=firefox,format=134" \
+            --ytdl-format="best[height<=720]" \
             --msg-level=all=v \
             "$actual_video_path" &
         

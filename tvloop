@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# tvloop - 24-Hour Video Channel System
+# Main entry point for tvloop commands
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$SCRIPT_DIR"
+
+# Source core modules
+source "$PROJECT_ROOT/core/tvloop_core.sh"
+source "$PROJECT_ROOT/core/tvloop_help.sh"
+
+# Main command processing
+main() {
+    local command="${1:-help}"
+    
+    case "$command" in
+        tune)
+            local player="${2:-mpv}"
+            local channel="$3"
+            tune_channel "$player" "$channel"
+            ;;
+        status)
+            local channel="$2"
+            show_status "$channel"
+            ;;
+        list)
+            list_channels
+            ;;
+        help|--help|-h)
+            local channels_dir=$(get_channels_dir)
+            show_usage "$0" "$channels_dir"
+            ;;
+        *)
+            echo "Unknown command: $command"
+            echo ""
+            local channels_dir=$(get_channels_dir)
+            show_usage "$0" "$channels_dir"
+            return 1
+            ;;
+    esac
+}
+
+# Run main function with all arguments
+main "$@"
