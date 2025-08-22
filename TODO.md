@@ -3,7 +3,7 @@
 1. **Default Channel Interface** ✅ COMPLETED
    - ✅ Create main tvloop script for simple "tvloop tune mpv" command
    - ✅ Implement automatic first channel selection
-   - ⏳ Add channel switching without closing player
+   - ✅ Add channel switching without closing player (MPV hotkey-based)
    - ✅ Follow TDD approach with comprehensive testing
 
 2. **YouTube Subscription Management**

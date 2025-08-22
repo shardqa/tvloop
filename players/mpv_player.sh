@@ -41,15 +41,18 @@ launch_mpv() {
     if [[ "$actual_video_path" =~ youtube\.com ]]; then
         log "Using mpv's built-in YouTube support"
         # Use best quality up to 720p for better compatibility
+        # Add channel switching script and input configuration
         mpv --start="$start_position" \
             $headless_opts \
             --ytdl-format="best[height<=720]" \
             --msg-level=all=v \
+            --script="$PROJECT_ROOT/scripts/mpv_channel_switcher.lua" \
+            --input-conf="$PROJECT_ROOT/config/mpv_input.conf" \
             "$actual_video_path" &
         
         local mpv_pid=$!
         echo "$mpv_pid" > "$channel_dir/mpv.pid"
-        log "mpv launched with PID: $mpv_pid"
+        log "mpv launched with PID: $mpv_pid (with channel switching enabled)"
         return 0
     fi
     
@@ -59,15 +62,18 @@ launch_mpv() {
     fi
     
     # Run mpv with appropriate options
+    # Add channel switching script and input configuration for all videos
     mpv --start="$start_position" \
         $headless_opts \
         --msg-level=all=v \
+        --script="$PROJECT_ROOT/scripts/mpv_channel_switcher.lua" \
+        --input-conf="$PROJECT_ROOT/config/mpv_input.conf" \
         "$actual_video_path" &
     
     # Store PID for later management
     local mpv_pid=$!
     echo "$mpv_pid" > "$channel_dir/mpv.pid"
-    log "mpv launched with PID: $mpv_pid"
+    log "mpv launched with PID: $mpv_pid (with channel switching enabled)"
     
     # Give mpv a moment to start
     sleep 2
