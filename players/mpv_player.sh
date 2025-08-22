@@ -7,6 +7,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
 source "$PROJECT_ROOT/core/logging.sh"
+source "$PROJECT_ROOT/core/tvloop_channels.sh"
 
 launch_mpv() {
     local video_path="$1"
@@ -37,17 +38,18 @@ launch_mpv() {
     
     log "Launching mpv: $actual_video_path at position ${start_position}s"
     
-    # Use fullscreen mode for non-test mode
-    local headless_opts="--force-window --fullscreen"
+    # Use window mode instead of fullscreen for better compatibility
+    local headless_opts="--force-window"
     
     # For YouTube URLs, use mpv's built-in YouTube support
     if [[ "$actual_video_path" =~ youtube\.com ]]; then
         log "Using mpv's built-in YouTube support"
-        # Use best quality up to 720p for better compatibility
+        # Use 360p video + audio for better compatibility
         # Add channel switching script and input configuration
-        mpv --start="$start_position" \
+        local channels_dir=$(get_channels_dir)
+        TVLOOP_CHANNELS_DIR="$channels_dir" mpv --start="$start_position" \
             $headless_opts \
-            --ytdl-format="best" \
+            --ytdl-format="230+234-1" \
             --keep-open=yes \
             --idle=yes \
             --msg-level=all=v \

@@ -28,7 +28,7 @@ get_video_info_ytdlp() {
     fi
     
     # Get video information in JSON format
-    local info=$(yt-dlp --cookies-from-browser firefox --dump-json --no-playlist "$video_url" 2>/dev/null)
+    local info=$(yt-dlp --dump-json --no-playlist "$video_url" 2>/dev/null)
     
     if [[ $? -eq 0 && -n "$info" ]]; then
         local title=$(echo "$info" | jq -r '.title // "unknown"')

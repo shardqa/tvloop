@@ -30,7 +30,7 @@ get_playlist_videos_ytdlp() {
                 count=$((count + 1))
             fi
         fi
-    done < <(yt-dlp --cookies-from-browser firefox --flat-playlist --dump-json --playlist-end "$max_videos" "$playlist_url" 2>/dev/null)
+    done < <(yt-dlp --flat-playlist --dump-json --playlist-end "$max_videos" "$playlist_url" 2>/dev/null)
     
     if [[ -n "$video_urls" ]]; then
         echo "$video_urls"

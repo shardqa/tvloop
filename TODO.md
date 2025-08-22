@@ -16,7 +16,10 @@
    - Improve playlist loading performance
    - Add background playlist updates
 
-4. **User Interface Improvements**
+4. **Channel Management Improvements**
+   - ✅ Add channel recreation support (--force flag)
+   - ✅ Debug and fix invalid duration issue for @Mamaefalei channel
+   - ✅ Add channel removal support (remove command)
    - Add YouTube channel selection interface
    - Create playlist preview functionality
    - Add video thumbnail display
