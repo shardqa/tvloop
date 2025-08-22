@@ -278,7 +278,8 @@ local function switch_to_channel(channel_index)
     msg.info("Loading URL: " .. youtube_url)
     
     -- Load the video
-mp.commandv("loadfile", youtube_url, "replace")
+    mp.commandv("loadfile", youtube_url, "replace")
+end
 
 -- Add a manual seek key binding
 mp.add_key_binding("s", "seek-to-position", function()
