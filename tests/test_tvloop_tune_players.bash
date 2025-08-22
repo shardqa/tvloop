@@ -4,8 +4,8 @@
 
 source "$(pwd)/tests/test_helper.bash"
 
-# Test that tvloop tune vlc works with first channel
-test_tvloop_tune_vlc_works() {
+# Test that tvloop tune mpv works with first channel
+test_tvloop_tune_mpv_works() {
     # Create test channels
     mkdir -p "$TEST_DIR/channels/test_channel"
     echo "test_video1.mp4|Test Video 1|60" > "$TEST_DIR/channels/test_channel/playlist.txt"
@@ -23,7 +23,7 @@ EOF
     # Test the command with custom channels directory
     local project_root="$(pwd)"
     local output
-    output=$(TEST_MODE=true TVLOOP_CHANNELS_DIR="$TEST_DIR/channels" "$project_root/tvloop" tune vlc 2>&1)
+    output=$(TEST_MODE=true TVLOOP_CHANNELS_DIR="$TEST_DIR/channels" "$project_root/tvloop" tune mpv 2>&1)
     local status=$?
     
     # For now, just check that the channel was found and playback was attempted

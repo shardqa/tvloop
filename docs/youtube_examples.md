@@ -19,7 +19,7 @@ Create a continuous music channel from a YouTube playlist:
 
 ## Create a News Channel
 
-Create a news channel with VLC player:
+Create a news channel with mpv player:
 
 ```bash
 # Create a news playlist
@@ -28,8 +28,8 @@ Create a news channel with VLC player:
 # Initialize the channel
 ./scripts/youtube_channel_player.sh channels/news_channel init
 
-# Play the news channel with VLC
-./scripts/youtube_channel_player.sh channels/news_channel play vlc
+# Play the news channel with mpv
+./scripts/youtube_channel_player.sh channels/news_channel play mpv
 ```
 
 ## Mix Local and YouTube Content

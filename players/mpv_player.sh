@@ -23,7 +23,7 @@ launch_mpv() {
     fi
     
     if ! command -v mpv >/dev/null 2>&1; then
-        log "ERROR: mpv not found. Please install mpv or use VLC."
+        log "ERROR: mpv not found. Please install mpv."
         return 1
     fi
     

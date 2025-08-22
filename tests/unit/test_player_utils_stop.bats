@@ -77,12 +77,12 @@ teardown() {
     
     # Create PID files with non-existent PIDs
     echo "999999" > "$TEST_DIR/channel1/mpv.pid"
-    echo "999998" > "$TEST_DIR/channel2/vlc.pid"
+    echo "999998" > "$TEST_DIR/channel2/mpv.pid"
     
     run stop_all_players "$TEST_DIR"
     assert_success
     
     # PID files should be removed
     assert [ ! -f "$TEST_DIR/channel1/mpv.pid" ]
-    assert [ ! -f "$TEST_DIR/channel2/vlc.pid" ]
+    assert [ ! -f "$TEST_DIR/channel2/mpv.pid" ]
 }

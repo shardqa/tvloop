@@ -38,8 +38,8 @@ Use the YouTube channel player to start playback:
 # Start playing with mpv (default)
 ./scripts/youtube_channel_player.sh channels/youtube_channel play
 
-# Start playing with VLC
-./scripts/youtube_channel_player.sh channels/youtube_channel play vlc
+# Start playing with mpv
+./scripts/youtube_channel_player.sh channels/youtube_channel play mpv
 
 # Check channel status
 ./scripts/youtube_channel_player.sh channels/youtube_channel status
@@ -58,14 +58,14 @@ Use the YouTube channel player to start playback:
 
 ### Channel Control
 - `init` - Initialize channel state
-- `play [player]` - Start playback (mpv or vlc)
+- `play [player]` - Start playback (mpv)
 - `stop` - Stop playback
 - `status` - Show channel and player status
 
 ## Player Types
 
 - **mpv** (default) - Lightweight, fast player
-- **vlc** - Feature-rich, cross-platform player
+
 
 ## See Also
 

@@ -1,4 +1,4 @@
-.PHONY: init status tune tune-vlc stop clean help test test-unit test-integration test-coverage playlist-info playlist-validate logs
+.PHONY: init status tune stop clean help test test-unit test-integration test-coverage playlist-info playlist-validate logs
 
 include make/channel.mk
 include make/playlist.mk
@@ -12,7 +12,6 @@ help:
 	@echo "  make init          - Initialize channel state"
 	@echo "  make status        - Show channel status"
 	@echo "  make tune          - Tune in to channel (mpv)"
-	@echo "  make tune-vlc      - Tune in to channel (VLC)"
 	@echo "  make stop          - Stop all players"
 	@echo ""
 	@echo "Playlist Management:"

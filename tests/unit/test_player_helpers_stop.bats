@@ -36,13 +36,7 @@ teardown() {
         test_player_stop "mpv" "$TEST_CHANNEL_DIR"
         [ ! -f "$TEST_CHANNEL_DIR/mpv.pid" ]
     else
-        # Test with vlc if mpv not available
-        if command -v vlc >/dev/null 2>&1; then
-            test_player_stop "vlc" "$TEST_CHANNEL_DIR"
-            [ ! -f "$TEST_CHANNEL_DIR/vlc.pid" ]
-        else
-            skip "No video players available for testing"
-        fi
+        skip "mpv not available for testing"
     fi
 }
 

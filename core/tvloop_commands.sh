@@ -20,11 +20,11 @@ tune_channel() {
     
     # Validate player
     case "$player" in
-        mpv|vlc)
+        mpv)
             ;;
         *)
             echo "Unsupported player: $player"
-            echo "Supported players: mpv, vlc"
+            echo "Supported players: mpv"
             return 1
             ;;
     esac

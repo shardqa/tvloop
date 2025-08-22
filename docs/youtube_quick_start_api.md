@@ -78,7 +78,7 @@
 - 🔄 **Continuous Loop**: Videos play in sequence and loop forever
 - ⏯️ **Resume Position**: Continues from where it left off
 - 📊 **Status Tracking**: Know what's playing and for how long
-- 🎮 **Multiple Players**: Support for mpv and VLC
+- 🎮 **Player Support**: Support for mpv
 - 📺 **YouTube Integration**: Automatically fetches videos
 - ⏱️ **24-Hour Programming**: Creates full-day schedules
 - 🔀 **Smart Duration**: Builds playlist to match target duration

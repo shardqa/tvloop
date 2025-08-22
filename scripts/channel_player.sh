@@ -11,7 +11,6 @@ PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 source "$PROJECT_ROOT/core/logging.sh"
 source "$PROJECT_ROOT/players/player_utils.sh"
 source "$PROJECT_ROOT/players/mpv_player.sh"
-source "$PROJECT_ROOT/players/vlc_player.sh"
 
 tune_in() {
     local player_type="${1:-mpv}"
@@ -42,9 +41,6 @@ tune_in() {
         "mpv")
             launch_mpv "$video_path" "$start_position" "$CHANNEL_DIR"
             ;;
-        "vlc")
-            launch_vlc "$video_path" "$start_position" "$CHANNEL_DIR"
-            ;;
         *)
             log "ERROR: Unsupported player: $player_type"
             return 1
@@ -63,7 +59,6 @@ case "${2:-tune}" in
         ;;
     "stop")
         stop_player "$CHANNEL_DIR" "mpv"
-        stop_player "$CHANNEL_DIR" "vlc"
         log "All players stopped"
         ;;
     "status")
@@ -78,11 +73,9 @@ case "${2:-tune}" in
         echo ""
         echo "Players:"
         echo "  mpv    - Use mpv player (default)"
-        echo "  vlc    - Use VLC player"
         echo ""
         echo "Examples:"
         echo "  $0 channels/channel_1 tune mpv"
-        echo "  $0 channels/channel_1 tune vlc"
         echo "  $0 channels/channel_1 stop"
         ;;
 esac

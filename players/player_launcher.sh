@@ -28,10 +28,6 @@ launch_video() {
                 source "$PROJECT_ROOT/players/mpv_player.sh"
                 launch_mpv "$video_path" "$start_position" "$channel_dir"
                 ;;
-            "vlc")
-                source "$PROJECT_ROOT/players/vlc_player.sh"
-                launch_vlc "$video_path" "$start_position" "$channel_dir"
-                ;;
             *)
                 log "ERROR: Unsupported player type: $player_type"
                 return 1

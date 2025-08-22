@@ -56,15 +56,7 @@ teardown() {
         # Clean up
         ./scripts/channel_player.sh "$TEST_CHANNEL_DIR" stop >/dev/null 2>&1 || true
     else
-        # Test with vlc if mpv not available
-        if command -v vlc >/dev/null 2>&1; then
-            test_player_launch "vlc" "$TEST_CHANNEL_DIR"
-            
-            # Clean up
-            ./scripts/channel_player.sh "$TEST_CHANNEL_DIR" stop >/dev/null 2>&1 || true
-        else
-            skip "No video players available for testing"
-        fi
+        skip "mpv not available for testing"
     fi
 }
 

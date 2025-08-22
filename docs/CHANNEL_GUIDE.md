@@ -76,7 +76,7 @@ Create a new TV channel from your media folder with just one command!
 - 🔄 **Continuous Loop**: Videos play in sequence and loop forever
 - ⏯️ **Resume Position**: If interrupted, continues from where it left off
 - 📊 **Status Tracking**: Know what's playing and for how long
-- 🎮 **Multiple Players**: Support for mpv and VLC
+- 🎮 **Player Support**: Support for mpv
 - 📁 **Auto-Scanning**: Automatically finds all video files in your folder
 - 📏 **File Size Filtering**: Skip files larger than specified size (MB)
 
@@ -105,10 +105,9 @@ If your video files are too large, use file size filtering:
 ```
 
 ### Player Issues
-Make sure you have mpv or VLC installed:
+Make sure you have mpv installed:
 ```bash
 which mpv
-which vlc
 ```
 
 ## Advanced Usage

@@ -33,7 +33,6 @@ logs/*.log
 channels/*/state.json
 channels/*/*.pid
 channels/*/mpv.pid
-channels/*/vlc.pid
 
 # Test artifacts
 /tmp/tvloop_test_*

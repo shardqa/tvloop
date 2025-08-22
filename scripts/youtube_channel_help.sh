@@ -21,7 +21,6 @@ show_usage() {
     echo ""
     echo "Player Types:"
     echo "  mpv                       - Use mpv player (default)"
-    echo "  vlc                       - Use VLC player"
     echo ""
     echo "Examples:"
     echo "  $0 channels/youtube_channel play mpv"
@@ -31,5 +30,5 @@ show_usage() {
     echo "Prerequisites:"
     echo "  - YouTube playlist must be created first using youtube_playlist_manager.sh"
     echo "  - yt-dlp must be installed for YouTube playback"
-    echo "  - mpv or VLC must be installed"
+    echo "  - mpv must be installed"
 }

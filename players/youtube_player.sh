@@ -10,7 +10,6 @@ source "$PROJECT_ROOT/core/logging.sh"
 
 # Source the split modules
 source "$PROJECT_ROOT/players/youtube_player_mpv.sh"
-source "$PROJECT_ROOT/players/youtube_player_vlc.sh"
 source "$PROJECT_ROOT/players/youtube_player_control.sh"
 
 # Check if yt-dlp is available
@@ -64,9 +63,6 @@ launch_youtube() {
     case "$player_type" in
         "mpv")
             launch_youtube_mpv "$video_id" "$start_position" "$channel_dir"
-            ;;
-        "vlc")
-            launch_youtube_vlc "$video_id" "$start_position" "$channel_dir"
             ;;
         *)
             log "ERROR: Unsupported player type: $player_type"

@@ -25,18 +25,7 @@ show_player_status() {
         echo "mpv not running"
     fi
     
-    # Check local VLC player
-    if [[ -f "$channel_dir/vlc.pid" ]]; then
-        local pid=$(cat "$channel_dir/vlc.pid")
-        if kill -0 "$pid" 2>/dev/null; then
-            echo "VLC running (PID: $pid)"
-        else
-            echo "VLC not running (stale PID file)"
-            rm -f "$channel_dir/vlc.pid"
-        fi
-    else
-        echo "VLC not running"
-    fi
+
     
     # Check YouTube mpv player
     if [[ -f "$channel_dir/youtube_mpv.pid" ]]; then
@@ -51,16 +40,5 @@ show_player_status() {
         echo "YouTube mpv not running"
     fi
     
-    # Check YouTube VLC player
-    if [[ -f "$channel_dir/youtube_vlc.pid" ]]; then
-        local pid=$(cat "$channel_dir/youtube_vlc.pid")
-        if kill -0 "$pid" 2>/dev/null; then
-            echo "YouTube VLC running (PID: $pid)"
-        else
-            echo "YouTube VLC not running (stale PID file)"
-            rm -f "$channel_dir/youtube_vlc.pid"
-        fi
-    else
-        echo "YouTube VLC not running"
-    fi
+
 }

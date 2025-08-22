@@ -313,7 +313,6 @@ mp.add_key_binding("p", "show-position-info", function()
     
     mp.osd_message(info, 3)
 end)
-end
 
 -- Register script message handler for channel switching
 mp.register_script_message("switch-channel", function(channel_index_str)

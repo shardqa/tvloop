@@ -6,7 +6,7 @@ This guide explains how to set up YouTube API integration for tvloop.
 
 1. **YouTube Data API v3 Key**: You need a Google Cloud API key with YouTube Data API v3 enabled
 2. **yt-dlp**: Required for YouTube video playback
-3. **mpv or VLC**: Video player for playback
+3. **mpv**: Video player for playback
 
 ## Step 1: Get YouTube Data API v3 Key
 
@@ -42,9 +42,7 @@ brew install yt-dlp
 sudo apt install mpv  # Ubuntu/Debian
 brew install mpv      # macOS
 
-# Or install VLC
-sudo apt install vlc  # Ubuntu/Debian
-brew install vlc      # macOS
+
 ```
 
 ## Step 3: Configure API Key

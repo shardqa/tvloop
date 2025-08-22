@@ -12,9 +12,7 @@ tune:
 	@echo "Tuning in to channel: $(CHANNEL_DIR)"
 	@./scripts/channel_player.sh $(CHANNEL_DIR) tune mpv
 
-tune-vlc:
-	@echo "Tuning in to channel (VLC): $(CHANNEL_DIR)"
-	@./scripts/channel_player.sh $(CHANNEL_DIR) tune vlc
+
 
 stop:
 	@echo "Stopping all players"
