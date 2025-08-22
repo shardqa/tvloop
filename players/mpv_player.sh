@@ -44,7 +44,9 @@ launch_mpv() {
         # Add channel switching script and input configuration
         mpv --start="$start_position" \
             $headless_opts \
-            --ytdl-format="best[height<=720]" \
+            --ytdl-format="best" \
+            --keep-open=yes \
+            --idle=yes \
             --msg-level=all=v \
             --script="$PROJECT_ROOT/scripts/mpv_channel_switcher.lua" \
             --input-conf="$PROJECT_ROOT/config/mpv_input.conf" \
@@ -65,6 +67,8 @@ launch_mpv() {
     # Add channel switching script and input configuration for all videos
     mpv --start="$start_position" \
         $headless_opts \
+        --keep-open=yes \
+        --idle=yes \
         --msg-level=all=v \
         --script="$PROJECT_ROOT/scripts/mpv_channel_switcher.lua" \
         --input-conf="$PROJECT_ROOT/config/mpv_input.conf" \
