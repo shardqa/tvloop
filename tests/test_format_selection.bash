@@ -6,7 +6,7 @@
 set -e
 
 # Source test helper
-source "$(dirname "$0")/test_helper.bash"
+source "$(pwd)/tests/test_helper.bash"
 
 # Test that format selection function exists
 test_format_selection_function_exists() {
@@ -29,8 +29,8 @@ test_default_format_combination() {
     local format=$(select_youtube_format "https://www.youtube.com/watch?v=AeVLXtww_4E")
     
     # Should return the default format combination
-    if [[ "$format" != "230+234-1" ]]; then
-        echo "ERROR: Expected default format '230+234-1', got '$format'"
+    if [[ "$format" != "18" ]]; then
+        echo "ERROR: Expected default format '18', got '$format'"
         return 1
     fi
 }
@@ -49,9 +49,9 @@ test_format_fallback_mechanism() {
         return 1
     fi
     
-    # Should contain video and audio format combination
-    if [[ ! "$format" =~ .*\+.* ]]; then
-        echo "ERROR: Expected format to contain video+audio combination, got '$format'"
+    # Should return a valid format (no longer checking for + since format 18 is single format)
+    if [[ "$format" != "18" ]]; then
+        echo "ERROR: Expected fallback format '18', got '$format'"
         return 1
     fi
 }
@@ -70,9 +70,9 @@ test_automatic_360p_selection() {
         return 1
     fi
     
-    # Should contain video and audio format combination
-    if [[ ! "$format" =~ .*\+.* ]]; then
-        echo "ERROR: Expected format to contain video+audio combination, got '$format'"
+    # Should return a valid format (no longer checking for + since format 18 is single format)
+    if [[ "$format" != "18" ]]; then
+        echo "ERROR: Expected automatic format '18', got '$format'"
         return 1
     fi
 }
@@ -83,8 +83,8 @@ test_format_validation() {
     source "$project_root/core/format_selection.sh"
     
     # Test valid format
-    if ! is_valid_format "230+234-1"; then
-        echo "ERROR: Valid format '230+234-1' was rejected"
+    if ! is_valid_format "18"; then
+        echo "ERROR: Valid format '18' was rejected"
         return 1
     fi
     
