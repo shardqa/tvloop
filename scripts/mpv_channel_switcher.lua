@@ -157,10 +157,24 @@ local function on_file_loaded()
     if current_channel_info then
         msg.info("Video loaded successfully: " .. current_channel_info.video_id)
         current_channel = current_channel_info.channel_name
-        mp.osd_message("Switched to " .. current_channel_info.channel_name .. ": " .. current_channel_info.title, 3)
+        
+        -- Get video duration and seek to target position
+        local duration = mp.get_property_number("duration", 0)
+        local target_pos = current_channel_info.position
+        
+        if duration > 0 then
+            -- Ensure position is within bounds
+            local seek_pos = math.min(target_pos, duration - 10)
+            mp.commandv("seek", seek_pos)
+            mp.osd_message("Switched to " .. current_channel_info.channel_name .. ": " .. current_channel_info.title .. " at " .. seek_pos .. "s", 3)
+            msg.info("Seeked to position: " .. seek_pos .. "s (duration: " .. duration .. "s)")
+        else
+            mp.osd_message("Switched to " .. current_channel_info.channel_name .. ": " .. current_channel_info.title, 3)
+            msg.warn("No duration available, cannot seek")
+        end
         
         -- Store the target position for manual seeking
-        mp.set_property("user-data/target-position", tostring(current_channel_info.position))
+        mp.set_property("user-data/target-position", tostring(target_pos))
         
         -- Reset retry count on success
         retry_count = 0

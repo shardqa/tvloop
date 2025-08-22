@@ -22,12 +22,14 @@ local function switch_to_channel(channel_index, available_channels, calculate_ch
     -- Construct YouTube URL
     local youtube_url = "https://www.youtube.com/watch?v=" .. position.video_id
     
-    -- Load the video at the calculated position
+    -- Store target position for later seeking
+    mp.set_property("user-data/target-position", tostring(math.floor(position.position)))
+    
+    -- Load the video without immediate seeking
     mp.commandv("loadfile", youtube_url, "replace")
-    mp.commandv("seek", math.floor(position.position))
     
     local new_current_channel = channel.name
-    mp.osd_message("Switched to " .. channel.name .. ": " .. position.title .. " at " .. math.floor(position.position) .. "s", 3)
+    mp.osd_message("Switched to " .. channel.name .. ": " .. position.title .. " (target: " .. math.floor(position.position) .. "s)", 3)
     
     msg.info("Switched to channel: " .. channel.name .. " (video: " .. position.video_id .. " at " .. position.position .. "s)")
     

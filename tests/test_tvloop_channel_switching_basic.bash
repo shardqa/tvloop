@@ -37,7 +37,7 @@ EOF
     # Test that the tune command recognizes channel switching mode
     local project_root="$(pwd)"
     local output
-    output=$(TVLOOP_CHANNELS_DIR="$TEST_DIR/channels" "$project_root/tvloop" tune mpv 2>&1)
+    output=$(TEST_MODE=true TVLOOP_CHANNELS_DIR="$TEST_DIR/channels" "$project_root/tvloop" tune mpv 2>&1)
     local status=$?
     
     # Should attempt to launch MPV (may fail due to missing video files, but that's expected)

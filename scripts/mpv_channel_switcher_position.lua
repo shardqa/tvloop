@@ -36,6 +36,16 @@ local function calculate_channel_position(channel_dir, parse_playlist, parse_cha
     local video_position = total_elapsed - video_start_time
     local current_video = playlist[current_video_index]
     
+    -- Ensure position is within video bounds
+    if video_position < 0 then
+        video_position = 0
+    elseif video_position >= current_video.duration then
+        video_position = 0  -- Start from beginning if position is beyond duration
+    end
+    
+    msg.info(string.format("Channel position calculation: elapsed=%d, video_start=%d, position=%d, duration=%d", 
+        total_elapsed, video_start_time, video_position, current_video.duration))
+    
     return {
         video_id = current_video.id,
         title = current_video.title,

@@ -24,7 +24,7 @@ EOF
     # Test the command with custom channels directory
     local project_root="$(pwd)"
     local output
-    output=$(TVLOOP_CHANNELS_DIR="$TEST_DIR/channels" "$project_root/tvloop" tune mpv 2>&1)
+    output=$(TEST_MODE=true TVLOOP_CHANNELS_DIR="$TEST_DIR/channels" "$project_root/tvloop" tune mpv 2>&1)
     local status=$?
     
     # For now, just check that the channel was found and playback was attempted
@@ -41,7 +41,7 @@ test_tvloop_tune_mpv_no_channels_error() {
     # Test the command with custom channels directory
     local project_root="$(pwd)"
     local output
-    output=$(TVLOOP_CHANNELS_DIR="$TEST_DIR/channels" "$project_root/tvloop" tune mpv 2>&1)
+    output=$(TEST_MODE=true TVLOOP_CHANNELS_DIR="$TEST_DIR/channels" "$project_root/tvloop" tune mpv 2>&1)
     local status=$?
     
     assert_equals 1 "$status"

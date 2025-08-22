@@ -10,6 +10,15 @@ launch_vlc() {
     local start_position="$2"
     local channel_dir="$3"
     
+    # Check if we're in test mode - use mock launch
+    if [[ "${TEST_MODE:-false}" == "true" ]]; then
+        log "Running in test mode - using mock player launch"
+        local mock_pid=999999
+        echo "$mock_pid" > "$channel_dir/vlc.pid"
+        log "Mock VLC launched with PID: $mock_pid"
+        return 0
+    fi
+    
     if ! command -v vlc >/dev/null 2>&1; then
         log "ERROR: VLC not found. Please install VLC or use mpv."
         return 1

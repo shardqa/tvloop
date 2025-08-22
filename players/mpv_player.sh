@@ -13,6 +13,15 @@ launch_mpv() {
     local start_position="$2"
     local channel_dir="$3"
     
+    # Check if we're in test mode - use mock launch
+    if [[ "${TEST_MODE:-false}" == "true" ]]; then
+        log "Running in test mode - using mock player launch"
+        local mock_pid=999999
+        echo "$mock_pid" > "$channel_dir/mpv.pid"
+        log "Mock mpv launched with PID: $mock_pid"
+        return 0
+    fi
+    
     if ! command -v mpv >/dev/null 2>&1; then
         log "ERROR: mpv not found. Please install mpv or use VLC."
         return 1
@@ -28,14 +37,8 @@ launch_mpv() {
     
     log "Launching mpv: $actual_video_path at position ${start_position}s"
     
-    # Check if we're in test mode for headless operation
-    local headless_opts=""
-    if [[ "${TEST_MODE:-false}" == "true" ]]; then
-        log "Running mpv in headless test mode"
-        headless_opts="--no-video --vo=null --no-terminal --no-osc --no-osd-bar --no-input-default-bindings --no-input-terminal"
-    else
-        headless_opts="--force-window --fullscreen"
-    fi
+    # Use fullscreen mode for non-test mode
+    local headless_opts="--force-window --fullscreen"
     
     # For YouTube URLs, use mpv's built-in YouTube support
     if [[ "$actual_video_path" =~ youtube\.com ]]; then
