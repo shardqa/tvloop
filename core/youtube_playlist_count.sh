@@ -1,16 +1,15 @@
 #!/bin/bash
 
-# YouTube API Channel Functions for tvloop (Refactored)
-# Main coordinator for channel-based operations
+# YouTube Playlist Count Module (Refactored)
+# Main coordinator for video-count-based playlist operations
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
 # Load modules
-source "$PROJECT_ROOT/core/youtube_channel_resolver.sh"
-source "$PROJECT_ROOT/core/youtube_channel_info.sh"
-source "$PROJECT_ROOT/core/youtube_channel_videos.sh"
-source "$PROJECT_ROOT/core/youtube_playlist_creator.sh"
+source "$PROJECT_ROOT/core/youtube_playlist_count_creation.sh"
+source "$PROJECT_ROOT/core/youtube_playlist_count_analysis.sh"
+source "$PROJECT_ROOT/core/youtube_playlist_count_stats.sh"
 
 # Main functions - these are now just wrappers that delegate to modules
 # This maintains backward compatibility while using the new modular structure
