@@ -69,3 +69,7 @@ ehthumbs.db
 Thumbs.db
 channels/
 .result
+final_results.txt
+final_parallel_results.txt
+final_test_results.txt
+parallel_test_results.txt
