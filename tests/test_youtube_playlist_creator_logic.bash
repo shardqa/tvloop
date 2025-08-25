@@ -16,11 +16,14 @@ test_youtube_playlist_creator_error_handling() {
     local modules=(
         "core/youtube_playlist_duration_core.sh"
         "core/youtube_playlist_duration_utils.sh"
-        "core/youtube_playlist_count_creation.sh"
+        "core/youtube_playlist_count_creation_core.sh"
+        "core/youtube_playlist_count_creation_specialized.sh"
         "core/youtube_playlist_count_analysis.sh"
         "core/youtube_playlist_count_stats.sh"
-        "core/youtube_playlist_basic_validation.sh"
-        "core/youtube_playlist_format_validation_core.sh"
+        "core/youtube_playlist_basic_validation_core.sh"
+        "core/youtube_playlist_basic_validation_utils.sh"
+        "core/youtube_playlist_format_validation_analysis.sh"
+        "core/youtube_playlist_format_validation_ids.sh"
         "core/youtube_playlist_format_validation_duplicates.sh"
         "core/youtube_playlist_format_validation_line.sh"
     )

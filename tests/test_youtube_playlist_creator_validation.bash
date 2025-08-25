@@ -13,7 +13,7 @@ test_youtube_playlist_creator_validation() {
     local project_root="$(pwd)"
     
     # Check for validation patterns in the basic validation module
-    local validation_path="$project_root/core/youtube_playlist_basic_validation.sh"
+    local validation_path="$project_root/core/youtube_playlist_basic_validation_core.sh"
     
     local validation_patterns=(
         "validate_playlist_file"
@@ -39,7 +39,7 @@ test_youtube_playlist_creator_output() {
         "core/youtube_playlist_duration_core.sh"
         "core/youtube_playlist_count_creation.sh"
         "core/youtube_playlist_count_stats.sh"
-        "core/youtube_playlist_format_validation.sh"
+        "core/youtube_playlist_format_validation_core.sh"
     )
     
     local output_patterns=(

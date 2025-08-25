@@ -14,7 +14,8 @@ test_youtube_api_channel_error_handling() {
     
     # Check for error handling patterns in the modules
     local modules=(
-        "core/youtube_channel_resolver.sh"
+        "core/youtube_channel_resolver_core.sh"
+        "core/youtube_channel_resolver_utils.sh"
         "core/youtube_channel_info_basic.sh"
         "core/youtube_channel_info_detailed.sh"
         "core/youtube_channel_videos_core.sh"
@@ -50,7 +51,7 @@ test_youtube_api_channel_validation() {
     local project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
     
     # Check for validation patterns in the resolver module
-    local resolver_path="$project_root/core/youtube_channel_resolver.sh"
+    local resolver_path="$project_root/core/youtube_channel_resolver_core.sh"
     
     local validation_patterns=(
         "get_channel_id"

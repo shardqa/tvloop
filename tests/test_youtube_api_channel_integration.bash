@@ -15,7 +15,8 @@ test_youtube_api_channel_api_integration() {
     # Check for API integration patterns in the modules
     local modules=(
         "core/youtube_api_core.sh"
-        "core/youtube_channel_resolver.sh"
+        "core/youtube_channel_resolver_core.sh"
+        "core/youtube_channel_resolver_utils.sh"
         "core/youtube_channel_info_basic.sh"
         "core/youtube_channel_info_detailed.sh"
         "core/youtube_channel_videos_core.sh"
