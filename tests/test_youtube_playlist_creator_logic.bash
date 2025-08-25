@@ -6,11 +6,11 @@
 set -e
 
 # Source test helper
-source "$(pwd)/tests/test_helper.bash"
+source "$(dirname "${BASH_SOURCE[0]}")/test_helper.bash"
 
 # Test that the script has proper error handling
 test_youtube_playlist_creator_error_handling() {
-    local project_root="$(pwd)"
+    local project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
     
     # Check for error handling patterns in the modules
     local modules=(
@@ -20,7 +20,9 @@ test_youtube_playlist_creator_error_handling() {
         "core/youtube_playlist_count_analysis.sh"
         "core/youtube_playlist_count_stats.sh"
         "core/youtube_playlist_basic_validation.sh"
-        "core/youtube_playlist_format_validation.sh"
+        "core/youtube_playlist_format_validation_core.sh"
+        "core/youtube_playlist_format_validation_duplicates.sh"
+        "core/youtube_playlist_format_validation_line.sh"
     )
     
     # Check that each module has basic error handling
@@ -42,7 +44,7 @@ test_youtube_playlist_creator_error_handling() {
 
 # Test that the script has playlist creation logic
 test_youtube_playlist_creator_playlist_logic() {
-    local project_root="$(pwd)"
+    local project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
     
     # Check for playlist creation patterns in the modules
     local modules=(
@@ -76,3 +78,18 @@ test_youtube_playlist_creator_playlist_logic() {
         fi
     done
 }
+
+# Run playlist creator logic tests
+run_playlist_creator_logic_tests() {
+    echo "Running youtube_playlist_creator logic tests..."
+    
+    test_youtube_playlist_creator_error_handling
+    test_youtube_playlist_creator_playlist_logic
+    
+    echo "✅ All youtube_playlist_creator logic tests passed!"
+}
+
+# Run tests if script is executed directly
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    run_playlist_creator_logic_tests
+fi

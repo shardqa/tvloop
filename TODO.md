@@ -20,6 +20,7 @@
    - ✅ Add channel recreation support (--force flag)
    - ✅ Debug and fix invalid duration issue for @Mamaefalei channel
    - ✅ Add channel removal support (remove command)
+   - ✅ Refactor large test files into smaller, focused test suites
    - Add YouTube channel selection interface
    - Create playlist preview functionality
    - Add video thumbnail display

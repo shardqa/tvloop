@@ -38,6 +38,14 @@ echo -e "${BLUE}🔍 Finding large files in tvloop project (>${MAX_LINES} lines)
 echo -e "${BLUE}Project root: ${PROJECT_ROOT}${NC}"
 echo ""
 
+# Initialize counters
+medium_count=0
+large_count=0
+very_large_count=0
+
+# Temporary file to store results
+temp_file=$(mktemp)
+
 # Find all files, excluding common ignore patterns
 find "$PROJECT_ROOT" -type f \
     -not -path "*/node_modules/*" \
@@ -53,6 +61,7 @@ find "$PROJECT_ROOT" -type f \
     -not -name "*.json" \
     -not -name "*.txt" \
     -not -name "*.conf" \
+    -not -path "*/scripts/find_big_files.sh" \
     \( -name "*.sh" -o -name "*.bash" -o -name "*.lua" -o -name "*.md" -o -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.mk" \) \
     | while read -r file; do
     
@@ -60,28 +69,39 @@ find "$PROJECT_ROOT" -type f \
     relative_path=$(get_relative_path "$file")
     extension=$(get_extension "$file")
     
-    # Only show files with more than MAX_LINES
+    # Only process files with more than MAX_LINES
     if [ "$lines" -gt "$MAX_LINES" ]; then
         # Color coding based on size
         if [ "$lines" -gt 300 ]; then
             color="$RED"
             size_indicator="🔴 VERY LARGE"
+            echo "very_large" >> "$temp_file"
         elif [ "$lines" -gt 200 ]; then
             color="$YELLOW"
             size_indicator="🟡 LARGE"
+            echo "large" >> "$temp_file"
         else
             color="$GREEN"
             size_indicator="🟢 MEDIUM"
+            echo "medium" >> "$temp_file"
         fi
         
         printf "${color}%-8s${NC} %-12s %s\n" "$lines" "[$extension]" "$relative_path"
     fi
 done | sort -nr
 
+# Count files in each category
+medium_count=$(grep -c "^medium$" "$temp_file" 2>/dev/null || echo "0")
+large_count=$(grep -c "^large$" "$temp_file" 2>/dev/null || echo "0")
+very_large_count=$(grep -c "^very_large$" "$temp_file" 2>/dev/null || echo "0")
+
+# Clean up temporary file
+rm -f "$temp_file"
+
 echo ""
 echo -e "${BLUE}📊 Summary:${NC}"
-echo -e "${GREEN}🟢 MEDIUM${NC}  (101-200 lines) - Consider refactoring"
-echo -e "${YELLOW}🟡 LARGE${NC}   (201-300 lines) - Should be refactored"
-echo -e "${RED}🔴 VERY LARGE${NC} (300+ lines) - Must be refactored"
+echo -e "${GREEN}🟢 MEDIUM${NC}  (101-200 lines) - Consider refactoring (${medium_count} files)"
+echo -e "${YELLOW}🟡 LARGE${NC}   (201-300 lines) - Should be refactored (${large_count} files)"
+echo -e "${RED}🔴 VERY LARGE${NC} (300+ lines) - Must be refactored (${very_large_count} files)"
 echo ""
 echo -e "${BLUE}💡 Files excluded: node_modules, coverage, .git, logs, lib, *.json, *.txt, *.conf, *.log, *.pid${NC}"
